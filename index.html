@@ -386,90 +386,77 @@ function getCashTotal(){ return CASH_ACCOUNTS.reduce((a,c)=>a+c.balance,0); }
 function getCashInterest(){ return CASH_ACCOUNTS.reduce((a,c)=>a+(c.balance*c.rate/100),0); }
 
 // ══════════════════════════════════════════════════════════════
-//  PRICE FETCH — Twelve Data API (batch, CORS-enabled, LSE covered)
+//  PRICE FETCH — Twelve Data API (8 credits/min free tier)
 // ══════════════════════════════════════════════════════════════
 const TDKEY='1690b9528b814da28f9e12d34a3394ac';
-const TDBASE='https://api.twelvedata.com/quote';
 
-// Twelve Data symbols for portfolio holdings
-const TD_PORT = {
-  'ATYM.L':'ATYM:LON', 'GAMA.L':'GAMA:LON', 'HSBA.L':'HSBA:LON',
-  'IMI.L':'IMI:LON',   'LUCE.L':'LUCE:LON',  'MAB1.L':'MAB:LON',
-  'SN.L':'SN.:LON',    'AAF.L':'AAF:LON',    'BA.L':'BA.:LON',
-  'FSG.L':'FSG:LON',   'BGEO.L':'BGEO:LON',  'MONY.L':'MONY:LON',
-  'RIO.L':'RIO:LON',   'RS1.L':'RS1:LON',
+const TD_PORT={
+  'ATYM.L':'ATYM:LON','GAMA.L':'GAMA:LON','HSBA.L':'HSBA:LON',
+  'IMI.L':'IMI:LON',  'LUCE.L':'LUCE:LON','MAB1.L':'MAB:LON',
+  'SN.L':'SN.:LON',   'AAF.L':'AAF:LON',  'BA.L':'BA.:LON',
+  'FSG.L':'FSG:LON',  'BGEO.L':'BGEO:LON','MONY.L':'MONY:LON',
+  'RIO.L':'RIO:LON',  'RS1.L':'RS1:LON',
 };
-const TD_PORT_REV = Object.fromEntries(Object.entries(TD_PORT).map(([k,v])=>[v,k]));
+const TD_PORT_REV=Object.fromEntries(Object.entries(TD_PORT).map(([k,v])=>[v,k]));
 
 function isHosted(){return window.location.protocol==='https:'||window.location.protocol==='http:';}
 
-async function fetchAllPrices(){
-  if(!isHosted()) return false;
-  const symList = Object.values(TD_PORT).join(',');
-  const url = `${TDBASE}?symbol=${encodeURIComponent(symList)}&apikey=${TDKEY}&dp=2`;
+async function fetchBatch(appSyms){
+  const tdSyms=appSyms.map(s=>TD_PORT[s]).filter(Boolean);
+  if(!tdSyms.length) return;
+  const url=`https://api.twelvedata.com/quote?symbol=${encodeURIComponent(tdSyms.join(','))}&apikey=${TDKEY}&dp=2`;
   try{
-    const r = await fetch(url);
+    const r=await fetch(url);
     if(!r.ok) throw new Error(`HTTP ${r.status}`);
-    const data = await r.json();
-    const ts = Date.now();
-    Object.entries(data).forEach(([tdSym, d])=>{
-      if(typeof d !== 'object' || d.status==='error') return;
-      const appSym = TD_PORT_REV[tdSym];
-      if(!appSym) return;
-      const price = parseFloat(d.close);
-      const changePct = parseFloat(d.percent_change);
-      const change = parseFloat(d.change);
-      if(!isNaN(price) && price > 0){
-        prices[appSym] = {price, change, changePct, ts};
+    const data=await r.json();
+    const ts=Date.now();
+    const entries=tdSyms.length===1?[[tdSyms[0],data]]:Object.entries(data);
+    entries.forEach(([tdSym,d])=>{
+      if(!d||d.status==='error') return;
+      const appSym=TD_PORT_REV[tdSym]||tdSym;
+      const price=parseFloat(d.close);
+      if(!isNaN(price)&&price>0){
+        prices[appSym]={price,change:parseFloat(d.change)||null,changePct:parseFloat(d.percent_change)||null,ts};
       }
     });
     saveState();
-    return true;
-  }catch(e){
-    console.error('TD batch failed:',e.message);
-    return false;
-  }
+  }catch(e){ console.warn('TD batch failed:',e.message); }
 }
 
 async function fetchPrice(sym){
   if(!isHosted()) return null;
-  const tdSym = TD_PORT[sym];
-  if(!tdSym) return null;
-  const url = `${TDBASE}?symbol=${encodeURIComponent(tdSym)}&apikey=${TDKEY}&dp=2`;
-  try{
-    const r = await fetch(url);
-    if(!r.ok) throw new Error(`HTTP ${r.status}`);
-    const d = await r.json();
-    if(d.status==='error') throw new Error(d.message);
-    const price = parseFloat(d.close);
-    const changePct = parseFloat(d.percent_change);
-    const change = parseFloat(d.change);
-    if(!isNaN(price) && price > 0){
-      prices[sym] = {price, change, changePct, ts:Date.now()};
-      saveState();
-      return prices[sym];
-    }
-    return null;
-  }catch(e){
-    console.warn(`TD fetch failed ${sym}:`, e.message);
-    return null;
-  }
+  await fetchBatch([sym]);
+  return prices[sym]||null;
 }
+
+// Legacy stub — not used but referenced in some places
+async function fetchAllPrices(){ return false; }
 
 async function refreshAllPrices(){
   if(refreshing) return;
   refreshing = true;
   const btn = document.getElementById('refreshBtn');
   btn.classList.add('spinning');
-  document.getElementById('refreshTxt').textContent = ' Loading';
   if(!isHosted()){
     document.getElementById('lastUpdate').textContent='⚠️ Open via GitHub Pages URL to load live prices';
     btn.classList.remove('spinning');
     document.getElementById('refreshTxt').textContent=' Refresh';
     refreshing=false; return;
   }
-  // Single batch call for all holdings
-  await fetchAllPrices();
+  const syms=Object.keys(TD_PORT);
+  const BATCH=8;
+  let loaded=0;
+  for(let i=0;i<syms.length;i+=BATCH){
+    const batch=syms.slice(i,i+BATCH);
+    document.getElementById('refreshTxt').textContent=` ${loaded}/${syms.length}`;
+    await fetchBatch(batch);
+    loaded+=batch.length;
+    renderCurrentView();
+    if(i+BATCH<syms.length){
+      document.getElementById('lastUpdate').textContent=`Loading ${loaded}/${syms.length} · Pausing for rate limit...`;
+      await new Promise(r=>setTimeout(r,65000));
+    }
+  }
   btn.classList.remove('spinning');
   document.getElementById('refreshTxt').textContent = ' Refresh';
   document.getElementById('lastUpdate').textContent = 'Yahoo Finance · Updated '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
