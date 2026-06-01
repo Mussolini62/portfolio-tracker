@@ -386,40 +386,72 @@ function getCashTotal(){ return CASH_ACCOUNTS.reduce((a,c)=>a+c.balance,0); }
 function getCashInterest(){ return CASH_ACCOUNTS.reduce((a,c)=>a+(c.balance*c.rate/100),0); }
 
 // ══════════════════════════════════════════════════════════════
-//  PRICE FETCH — Finnhub API (works from hosted GitHub Pages URL)
+//  PRICE FETCH — Twelve Data API (batch, CORS-enabled, LSE covered)
 // ══════════════════════════════════════════════════════════════
-const FKEY='d8eoo41r01qub7kdvq50d8eoo41r01qub7kdvq5g';
-const FBASE='https://finnhub.io/api/v1/quote';
+const TDKEY='1690b9528b814da28f9e12d34a3394ac';
+const TDBASE='https://api.twelvedata.com/quote';
 
-const FH_PORT={
-  'ATYM.L':'LSE:ATYM', 'GAMA.L':'LSE:GAMA', 'HSBA.L':'LSE:HSBA',
-  'IMI.L':'LSE:IMI',   'LUCE.L':'LSE:LUCE', 'MAB1.L':'LSE:MAB',
-  'SN.L':'LSE:SN.',    'AAF.L':'LSE:AAF',   'BA.L':'LSE:BA.',
-  'FSG.L':'LSE:FSG',   'BGEO.L':'LSE:BGEO', 'MONY.L':'LSE:MONY',
-  'RIO.L':'LSE:RIO',   'RS1.L':'LSE:RS1',
-  'B41YBW7':'SKIP',    'B41YBW7G':'SKIP',   // Fundsmith — no Finnhub listing
+// Twelve Data symbols for portfolio holdings
+const TD_PORT = {
+  'ATYM.L':'ATYM:LON', 'GAMA.L':'GAMA:LON', 'HSBA.L':'HSBA:LON',
+  'IMI.L':'IMI:LON',   'LUCE.L':'LUCE:LON',  'MAB1.L':'MAB:LON',
+  'SN.L':'SN.:LON',    'AAF.L':'AAF:LON',    'BA.L':'BA.:LON',
+  'FSG.L':'FSG:LON',   'BGEO.L':'BGEO:LON',  'MONY.L':'MONY:LON',
+  'RIO.L':'RIO:LON',   'RS1.L':'RS1:LON',
 };
-function toFHPort(sym){return FH_PORT[sym]||sym;}
+const TD_PORT_REV = Object.fromEntries(Object.entries(TD_PORT).map(([k,v])=>[v,k]));
+
 function isHosted(){return window.location.protocol==='https:'||window.location.protocol==='http:';}
+
+async function fetchAllPrices(){
+  if(!isHosted()) return false;
+  const symList = Object.values(TD_PORT).join(',');
+  const url = `${TDBASE}?symbol=${encodeURIComponent(symList)}&apikey=${TDKEY}&dp=2`;
+  try{
+    const r = await fetch(url);
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data = await r.json();
+    const ts = Date.now();
+    Object.entries(data).forEach(([tdSym, d])=>{
+      if(typeof d !== 'object' || d.status==='error') return;
+      const appSym = TD_PORT_REV[tdSym];
+      if(!appSym) return;
+      const price = parseFloat(d.close);
+      const changePct = parseFloat(d.percent_change);
+      const change = parseFloat(d.change);
+      if(!isNaN(price) && price > 0){
+        prices[appSym] = {price, change, changePct, ts};
+      }
+    });
+    saveState();
+    return true;
+  }catch(e){
+    console.error('TD batch failed:',e.message);
+    return false;
+  }
+}
 
 async function fetchPrice(sym){
   if(!isHosted()) return null;
-  if(sym==='B41YBW7'||sym==='B41YBW7G') return null; // Fundsmith — no API listing
-  const fSym=toFHPort(sym);
-  if(fSym==='SKIP') return null;
-  const url=`${FBASE}?symbol=${encodeURIComponent(fSym)}&token=${FKEY}`;
+  const tdSym = TD_PORT[sym];
+  if(!tdSym) return null;
+  const url = `${TDBASE}?symbol=${encodeURIComponent(tdSym)}&apikey=${TDKEY}&dp=2`;
   try{
-    const r=await fetch(url);
+    const r = await fetch(url);
     if(!r.ok) throw new Error(`HTTP ${r.status}`);
-    const d=await r.json();
-    if(!d.c||d.c===0) throw new Error('no data');
-    const result={price:d.c, change:d.d??null, changePct:d.dp??null, ts:Date.now()};
-    prices[sym]={...result};
-    if(sym==='B41YBW7') prices['B41YBW7G']={...result};
-    saveState();
-    return result;
+    const d = await r.json();
+    if(d.status==='error') throw new Error(d.message);
+    const price = parseFloat(d.close);
+    const changePct = parseFloat(d.percent_change);
+    const change = parseFloat(d.change);
+    if(!isNaN(price) && price > 0){
+      prices[sym] = {price, change, changePct, ts:Date.now()};
+      saveState();
+      return prices[sym];
+    }
+    return null;
   }catch(e){
-    console.warn(`Finnhub: ${sym} failed:`,e.message);
+    console.warn(`TD fetch failed ${sym}:`, e.message);
     return null;
   }
 }
@@ -436,11 +468,8 @@ async function refreshAllPrices(){
     document.getElementById('refreshTxt').textContent=' Refresh';
     refreshing=false; return;
   }
-  const syms=[...new Set(HOLDINGS.map(h=>h.fetchSym||h.sym))];
-  for(let i=0;i<syms.length;i+=6){
-    await Promise.all(syms.slice(i,i+6).map(s=>fetchPrice(s).then(()=>renderCurrentView())));
-    if(i+6<syms.length) await new Promise(r=>setTimeout(r,100));
-  }
+  // Single batch call for all holdings
+  await fetchAllPrices();
   btn.classList.remove('spinning');
   document.getElementById('refreshTxt').textContent = ' Refresh';
   document.getElementById('lastUpdate').textContent = 'Yahoo Finance · Updated '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
