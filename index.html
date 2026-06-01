@@ -5,958 +5,689 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-<meta name="apple-mobile-web-app-title" content="McCall Portfolio"/>
+<meta name="apple-mobile-web-app-title" content="Berkshire"/>
 <meta name="theme-color" content="#faf8f3"/>
-<title>McCall Family Portfolio</title>
+<meta name="description" content="McCall Private Berkshire Watchlist — Offline Only"/>
+<!-- Offline only — no manifest needed -->
+<title>McCall — Berkshire Watchlist</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --bg:#faf8f3; --bg2:#f3f0e8; --bg3:#ede9df; --bg4:#e6e2d6;
-  --card:#ffffff; --card2:#fdfcf9;
-  --border:rgba(10,25,60,0.09); --border2:rgba(10,25,60,0.16);
-  --navy:#0a193c; --navy2:#1a2d5a; --navy3:#2e4a8a;
-  --gold:#b8872a; --gold2:#d4a843; --gold-bg:rgba(184,135,42,0.1); --gold-border:rgba(184,135,42,0.28); --gold-glow:rgba(184,135,42,0.2);
-  --green:#00a651; --green-bg:rgba(0,166,81,0.1); --green-border:rgba(0,166,81,0.35); --green-glow:rgba(0,166,81,0.4);
-  --red:#cc1f1f; --red-bg:rgba(204,31,31,0.08); --red-border:rgba(204,31,31,0.28);
-  --amber:#e07800; --amber-bg:rgba(224,120,0,0.1); --amber-border:rgba(224,120,0,0.3);
-  --blue:#1a56db; --blue-bg:rgba(26,86,219,0.08);
-  --text:#0a193c; --text2:rgba(10,25,60,0.68); --text3:rgba(10,25,60,0.4);
+:root{
+  --bg:#faf8f3;--bg2:#f3f0e8;--bg3:#ede9df;
+  --card:#ffffff;--card2:#fdfcf9;
+  --border:rgba(10,25,60,0.1);--border2:rgba(10,25,60,0.18);
+  --navy:#0a193c;--navy2:#1a2d5a;--navy3:#2e4a8a;
+  --navy-dim:rgba(10,25,60,0.55);--navy-soft:rgba(10,25,60,0.35);
+  --gold:#b8872a;--gold2:#d4a843;--gold-bg:rgba(184,135,42,0.1);
+  --gold-border:rgba(184,135,42,0.3);--gold-glow:rgba(184,135,42,0.25);
+  --green:#00a651;--green-bg:rgba(0,166,81,0.12);
+  --green-border:rgba(0,166,81,0.4);--green-glow:rgba(0,166,81,0.5);
+  --amber:#e07800;--amber-bg:rgba(224,120,0,0.1);--amber-border:rgba(224,120,0,0.35);
+  --red:#cc1f1f;--red-bg:rgba(204,31,31,0.09);--red-border:rgba(204,31,31,0.3);
+  --blue:#1a56db;--blue-bg:rgba(26,86,219,0.08);
+  --text:#0a193c;--text2:rgba(10,25,60,0.7);--text3:rgba(10,25,60,0.42);
   --serif:'Playfair Display',Georgia,serif;
   --body:'Outfit',sans-serif;
   --mono:'JetBrains Mono',monospace;
-  --shadow:0 2px 12px rgba(10,25,60,0.07),0 1px 3px rgba(10,25,60,0.05);
-  --shadow-md:0 4px 20px rgba(10,25,60,0.1),0 2px 6px rgba(10,25,60,0.06);
-  --shadow-lg:0 8px 32px rgba(10,25,60,0.12),0 2px 8px rgba(10,25,60,0.07);
+  --shadow:0 2px 12px rgba(10,25,60,0.08),0 1px 3px rgba(10,25,60,0.06);
+  --shadow-lg:0 8px 32px rgba(10,25,60,0.12),0 2px 8px rgba(10,25,60,0.08);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html{background:var(--bg);overflow-x:hidden;}
-body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh;}
+body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 60% 40% at 10% 10%,rgba(184,135,42,0.05),transparent 60%),
-    radial-gradient(ellipse 50% 30% at 90% 90%,rgba(10,25,60,0.04),transparent 60%);}
-.app{position:relative;z-index:1;max-width:560px;margin:0 auto;padding-bottom:100px;}
+  background:radial-gradient(ellipse 70% 40% at 15% 10%,rgba(184,135,42,0.06),transparent 60%),
+    radial-gradient(ellipse 50% 30% at 85% 85%,rgba(10,25,60,0.04),transparent 60%);}
+.app{position:relative;z-index:1;max-width:520px;margin:0 auto;padding-bottom:100px;}
 
-/* ── HEADER ── */
-.header{position:sticky;top:0;z-index:100;background:rgba(250,248,243,0.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:2px solid var(--border);padding:14px 16px 12px;box-shadow:0 2px 16px rgba(10,25,60,0.06);}
+/* HEADER */
+.header{position:sticky;top:0;z-index:100;background:rgba(250,248,243,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:2px solid var(--border);padding:16px 18px 14px;box-shadow:0 2px 16px rgba(10,25,60,0.07);}
 .header-inner{display:flex;justify-content:space-between;align-items:center;}
-.header-brand{display:flex;align-items:center;gap:11px;}
-.header-icon{width:40px;height:40px;border-radius:11px;flex-shrink:0;background:linear-gradient(135deg,var(--gold),#8b6410);display:flex;align-items:center;justify-content:center;font-size:19px;box-shadow:0 4px 14px var(--gold-glow);}
-.header-title{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--navy);letter-spacing:-0.02em;line-height:1.1;}
-.header-sub{font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:2px;letter-spacing:0.1em;text-transform:uppercase;}
-.header-btns{display:flex;gap:8px;align-items:center;}
-.btn-refresh{display:flex;align-items:center;gap:6px;background:var(--navy);color:#fff;border:none;border-radius:11px;padding:9px 14px;font-family:var(--mono);font-size:10px;font-weight:500;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(10,25,60,0.22);transition:all .2s;}
-.btn-refresh:active{transform:scale(0.95);}
+.header-brand{display:flex;align-items:center;gap:12px;}
+.header-icon{width:42px;height:42px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,var(--gold),#8b6410);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 14px var(--gold-glow);}
+.header-title{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--navy);letter-spacing:-0.02em;}
+.header-date{font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:2px;letter-spacing:0.1em;text-transform:uppercase;}
+.refresh-btn{display:flex;align-items:center;gap:7px;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:10px 16px;font-family:var(--mono);font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;box-shadow:0 4px 14px rgba(10,25,60,0.25);transition:all .2s;}
+.refresh-btn:active{transform:scale(0.95);}
 .ri{display:inline-block;}
-.btn-refresh.spinning .ri{animation:spin .8s linear infinite;}
+.refresh-btn.spinning .ri{animation:spin 0.8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-/* ── NAV TABS ── */
-.nav-tabs{display:flex;gap:0;background:var(--bg2);border-bottom:1px solid var(--border);}
-.nav-tab{flex:1;padding:11px 8px;font-family:var(--body);font-size:11px;font-weight:500;color:var(--text3);background:transparent;border:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;text-align:center;}
-.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);background:var(--card);}
-.nav-tab:active{background:var(--bg3);}
+/* SUMMARY */
+.summary-strip{display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg2);border-bottom:1px solid var(--border);}
+.summary-item{padding:12px 8px;text-align:center;border-right:1px solid var(--border);}
+.summary-item:last-child{border-right:none;}
+.summary-val{font-family:var(--mono);font-size:18px;font-weight:600;}
+.summary-label{font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;}
 
-/* ── FAMILY DASHBOARD ── */
-.dashboard{padding:14px 14px 0;}
+/* CASH */
+.cash-section{padding:14px 14px 0;}
+.cash-card{background:var(--card);border:1.5px solid var(--gold-border);border-radius:20px;padding:18px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
+.cash-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--navy3));border-radius:20px 20px 0 0;}
+.cash-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.cash-title{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--gold);}
+.cash-sub{font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-top:3px;}
+.cash-avail{font-family:var(--mono);font-size:24px;font-weight:600;color:var(--navy);text-align:right;}
+.cash-avail-lbl{font-family:var(--mono);font-size:8px;color:var(--text3);text-align:right;margin-top:2px;text-transform:uppercase;}
+.cash-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.cs-box{background:var(--bg2);border-radius:12px;padding:10px 12px;border:1px solid var(--border);}
+.cs-val{font-family:var(--mono);font-size:15px;font-weight:600;}
+.cs-lbl{font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-top:3px;}
+.cash-prog{height:5px;background:var(--bg3);border-radius:5px;overflow:hidden;margin-bottom:14px;border:1px solid var(--border);}
+.cash-prog-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .6s cubic-bezier(.4,0,.2,1);}
+.cash-row{display:flex;gap:8px;align-items:center;}
+.cash-wrap{flex:1;position:relative;}
+.cash-pre{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:13px;color:var(--text3);font-weight:500;}
+.cash-input{width:100%;background:var(--bg2);border:1.5px solid var(--border2);color:var(--text);border-radius:12px;padding:10px 12px 10px 26px;font-family:var(--mono);font-size:13px;outline:none;transition:border-color .2s;}
+.cash-input:focus{border-color:var(--gold);}
+.btn-add{background:var(--green);border:none;color:#fff;border-radius:12px;padding:10px 16px;font-family:var(--body);font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(0,166,81,0.3);transition:all .2s;white-space:nowrap;}
+.btn-add:active{transform:scale(0.95);}
+.btn-reset{background:var(--red-bg);border:1.5px solid var(--red-border);color:var(--red);border-radius:12px;padding:10px 12px;font-family:var(--mono);font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;}
+.btn-reset:active{transform:scale(0.95);}
 
-.family-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
-.family-title{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-0.02em;}
-.family-sub{font-family:var(--mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-top:3px;}
-.family-total{text-align:right;}
-.family-total-val{font-family:var(--mono);font-size:26px;font-weight:600;color:var(--navy);letter-spacing:-0.03em;}
-.family-total-lbl{font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;margin-top:2px;}
+/* LEGEND */
+.legend-bar{display:flex;gap:14px;flex-wrap:wrap;padding:12px 14px 0;}
+.li{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;color:var(--text3);}
 
-/* BIG STATS GRID */
-.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px;}
-.stat-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);}
-.stat-card.highlight{border-color:var(--gold-border);background:linear-gradient(135deg,rgba(184,135,42,0.04),var(--card));}
-.stat-card.green-hi{border-color:var(--green-border);background:linear-gradient(135deg,rgba(0,166,81,0.04),var(--card));}
-.stat-card.red-hi{border-color:var(--red-border);background:linear-gradient(135deg,rgba(204,31,31,0.03),var(--card));}
-.stat-label{font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;}
-.stat-val{font-family:var(--mono);font-size:20px;font-weight:600;letter-spacing:-0.02em;line-height:1;}
-.stat-sub{font-family:var(--mono);font-size:9px;margin-top:4px;}
+/* TABS */
+.tabs-wrap{padding:12px 14px 0;overflow-x:auto;display:flex;gap:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.tabs-wrap::-webkit-scrollbar{display:none;}
+.tab{flex-shrink:0;padding:8px 16px;border-radius:20px;font-family:var(--body);font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border2);color:var(--text3);background:var(--card);transition:all .2s;white-space:nowrap;box-shadow:0 1px 4px rgba(10,25,60,0.06);}
+.tab.active{background:var(--navy);border-color:var(--navy);color:#fff;box-shadow:0 4px 14px rgba(10,25,60,0.2);}
+.tab:active{transform:scale(0.95);}
 
-/* ACCOUNT BREAKDOWN */
-.acct-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
-.acct-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow);}
-.acct-owner{font-family:var(--mono);font-size:8px;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;font-weight:600;margin-bottom:4px;}
-.acct-name{font-family:var(--body);font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px;}
-.acct-val{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--navy);}
-.acct-gl{font-family:var(--mono);font-size:10px;margin-top:3px;}
+/* SECTIONS */
+.sections{padding:12px 14px 0;display:flex;flex-direction:column;gap:10px;}
+.section{border-radius:20px;overflow:hidden;border:1.5px solid var(--border);background:var(--card);box-shadow:var(--shadow);animation:fadeUp .4s cubic-bezier(.4,0,.2,1) both;}
+.section:nth-child(1){animation-delay:.05s}.section:nth-child(2){animation-delay:.1s}.section:nth-child(3){animation-delay:.15s}.section:nth-child(4){animation-delay:.2s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.sec-hdr{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;cursor:pointer;transition:background .2s;border-bottom:1px solid transparent;}
+.sec-hdr:active{background:var(--bg2);}
+.sec-hdr.open{border-bottom-color:var(--border);background:linear-gradient(135deg,var(--bg2),var(--card));}
+.sec-emoji{font-size:20px;margin-bottom:2px;}
+.sec-title{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--navy);}
+.sec-desc{font-family:var(--mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-top:3px;}
+.sec-right{display:flex;align-items:center;gap:10px;}
+.sec-count{background:var(--bg2);border:1.5px solid var(--border2);border-radius:20px;padding:4px 11px;font-family:var(--mono);font-size:10px;color:var(--text3);font-weight:500;}
+.sec-chev{color:var(--text3);font-size:12px;transition:transform .3s cubic-bezier(.4,0,.2,1);}
+.sec-chev.open{transform:rotate(90deg);}
 
-/* CASH ISA STRIP */
-.cash-strip{background:var(--card);border:1.5px solid var(--gold-border);border-radius:14px;padding:12px 14px;margin-bottom:10px;box-shadow:var(--shadow);}
-.cash-strip-title{font-family:var(--serif);font-size:12px;font-weight:600;color:var(--gold);margin-bottom:8px;}
-.cash-strip-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border);}
-.cash-strip-row:last-child{border-bottom:none;}
-.csr-left{font-family:var(--body);font-size:11px;color:var(--text2);}
-.csr-owner{font-family:var(--mono);font-size:8px;color:var(--gold);margin-right:4px;}
-.csr-right{display:flex;align-items:center;gap:10px;}
-.csr-rate{font-family:var(--mono);font-size:9px;color:var(--green);background:var(--green-bg);padding:2px 6px;border-radius:6px;}
-.csr-val{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--navy);}
+/* STOCK CARDS */
+.stock-list{display:flex;flex-direction:column;}
+.scard{border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;position:relative;overflow:hidden;background:var(--card);}
+.scard:last-child{border-bottom:none;}
+.scard:active{background:var(--bg2);}
+.scard.buy-zone{background:linear-gradient(135deg,rgba(0,166,81,0.07) 0%,var(--card) 50%);}
+.scard.buy-zone::before,.scard.amber-zone::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:0 2px 2px 0;}
+.scard.buy-zone::before{background:var(--green);box-shadow:2px 0 10px rgba(0,166,81,0.35);}
+.scard.amber-zone::before{background:var(--amber);}
 
-/* DIVIDEND SUMMARY */
-.div-summary{background:var(--card);border:1.5px solid var(--green-border);border-radius:14px;padding:12px 14px;margin-bottom:10px;box-shadow:var(--shadow);}
-.div-summary-title{font-family:var(--serif);font-size:12px;font-weight:600;color:var(--green);margin-bottom:8px;}
-.div-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.div-item-val{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--navy);}
-.div-item-lbl{font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;}
-
-/* ── HOLDINGS VIEW ── */
-.holdings-view{padding:12px 14px 0;}
-.holdings-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.holdings-title{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--navy);}
-.owner-filter{display:flex;gap:6px;}
-.of-btn{font-family:var(--mono);font-size:9px;padding:5px 10px;border-radius:16px;border:1.5px solid var(--border2);color:var(--text3);background:var(--card);cursor:pointer;transition:all .2s;font-weight:500;}
-.of-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
-.of-btn:active{transform:scale(0.95);}
-
-/* HOLDING CARD */
-.hcard{background:var(--card);border:1.5px solid var(--border);border-radius:16px;margin-bottom:8px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .2s;}
-.hcard:active{box-shadow:var(--shadow-md);}
-.hcard.gain{border-left:4px solid var(--green);}
-.hcard.loss{border-left:4px solid var(--red);}
-.hcard.neutral{border-left:4px solid var(--amber);}
-
-.hcard-top{padding:12px 14px 10px 14px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
-.hcard-left{flex:1;min-width:0;}
-.hcard-nameline{display:flex;align-items:center;gap:7px;flex-wrap:nowrap;}
-.gl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.gld-g{background:var(--green);box-shadow:0 0 0 2px rgba(0,166,81,0.2);}
-.gld-r{background:var(--red);box-shadow:0 0 0 2px rgba(204,31,31,0.15);}
-.gld-n{background:var(--amber);box-shadow:0 0 0 2px rgba(224,120,0,0.2);}
-.hcard-name{font-family:var(--body);font-size:13px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.hcard-meta{display:flex;align-items:center;gap:5px;margin-top:3px;flex-wrap:wrap;}
-.hcard-sym{font-family:var(--mono);font-size:9px;color:var(--text3);font-weight:500;}
-.hcard-owner-tag{font-family:var(--mono);font-size:8px;color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:6px;padding:1px 6px;font-weight:500;}
-.hcard-units{font-family:var(--mono);font-size:8px;color:var(--text3);}
-
-.hcard-right{text-align:right;flex-shrink:0;}
-.hcard-price{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--navy);line-height:1;letter-spacing:-0.02em;}
-.hcard-price.loading{color:transparent;background:var(--bg3);border-radius:5px;animation:shimmer 1.5s infinite;min-width:70px;display:inline-block;}
+.scard-main{display:flex;justify-content:space-between;align-items:flex-start;padding:13px 16px 9px 18px;gap:10px;}
+.scard-left{flex:1;min-width:0;}
+.nameline{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;}
+.tl{width:12px;height:12px;border-radius:50%;flex-shrink:0;border:2px solid rgba(255,255,255,0.8);}
+.tl-g{background:var(--green);box-shadow:0 0 0 3px rgba(0,166,81,0.25),0 0 12px rgba(0,166,81,0.5);}
+.tl-a{background:var(--amber);box-shadow:0 0 0 3px rgba(224,120,0,0.2),0 0 10px rgba(224,120,0,0.4);}
+.tl-r{background:var(--red);box-shadow:0 0 0 3px rgba(204,31,31,0.2),0 0 10px rgba(204,31,31,0.4);}
+.scard-name{font-family:var(--body);font-size:14px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.buy-pill{flex-shrink:0;display:inline-flex;align-items:center;gap:5px;background:var(--green);color:#fff;border-radius:20px;padding:3px 9px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:0.08em;box-shadow:0 2px 10px rgba(0,166,81,0.45);animation:buyPop 2s ease-in-out infinite;}
+@keyframes buyPop{0%,100%{box-shadow:0 2px 10px rgba(0,166,81,0.4),0 0 0 0 rgba(0,166,81,0.3)}50%{box-shadow:0 2px 10px rgba(0,166,81,0.4),0 0 0 6px rgba(0,166,81,0)}}
+.bd{width:6px;height:6px;border-radius:50%;background:#fff;animation:dotP 1.5s ease-in-out infinite;}
+@keyframes dotP{0%,100%{opacity:1}50%{opacity:.4}}
+.scard-meta{display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap;}
+.sym-tag{font-family:var(--mono);font-size:10px;color:var(--text3);font-weight:500;}
+.idx-tag{font-family:var(--mono);font-size:9px;color:var(--text3);}
+.moat-tag{font-family:var(--mono);font-size:8px;color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:8px;padding:2px 8px;font-weight:500;}
+.sep{color:var(--border2);}
+.scard-right{text-align:right;flex-shrink:0;}
+.scard-price{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--navy);line-height:1;letter-spacing:-0.02em;}
+.scard-price.loading{color:transparent;background:var(--bg3);border-radius:6px;animation:shimmer 1.5s infinite;min-width:80px;display:inline-block;}
 @keyframes shimmer{0%{opacity:.4}50%{opacity:.9}100%{opacity:.4}}
-.hcard-daychange{font-family:var(--mono);font-size:10px;margin-top:3px;font-weight:500;}
+.scard-change{font-family:var(--mono);font-size:11px;margin-top:4px;font-weight:500;}
+.scard-cur{font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:2px;}
 .up{color:var(--green);}.dn{color:var(--red);}
 
-/* PERFORMANCE ROW */
-.hcard-perf{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);background:var(--card2);}
-.perf-cell{padding:8px 10px;text-align:center;border-right:1px solid var(--border);}
-.perf-cell:last-child{border-right:none;}
-.perf-label{font-family:var(--mono);font-size:7px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;}
-.perf-val{font-family:var(--mono);font-size:11px;font-weight:600;}
-.pv-g{color:var(--green);}.pv-r{color:var(--red);}.pv-gold{color:var(--gold);}.pv-dim{color:var(--text3);}.pv-blue{color:var(--blue);}
+.scard-metrics{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);background:var(--card2);}
+.metric{padding:10px 12px;text-align:center;border-right:1px solid var(--border);}
+.metric:last-child{border-right:none;}
+.metric-label{font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;}
+.metric-val{font-family:var(--mono);font-size:14px;font-weight:600;}
+.mv-g{color:var(--green);}.mv-gold{color:var(--gold);}.mv-a{color:var(--amber);}.mv-dim{color:var(--text3);}
 
-/* EXPANDED DETAIL */
-.hcard-detail{border-top:1px solid var(--border);background:var(--bg2);padding:12px 14px;animation:slideDown .2s cubic-bezier(.4,0,.2,1);}
-@keyframes slideDown{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
-.detail-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 11px;}
-.detail-box-label{font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;}
-.detail-box-val{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--navy);}
-.detail-box-sub{font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:2px;}
+.gauge-wrap{padding:0 16px 6px;}
+.gauge-track{height:5px;background:var(--bg3);border-radius:5px;position:relative;margin-bottom:5px;border:1px solid var(--border);}
+.gauge-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--green),var(--gold),var(--navy3));transition:width .8s cubic-bezier(.4,0,.2,1);}
+.gauge-needle{position:absolute;top:-5px;width:3px;height:13px;border-radius:2px;background:var(--navy);transform:translateX(-50%);box-shadow:0 0 6px rgba(10,25,60,0.4);transition:left .8s cubic-bezier(.4,0,.2,1);}
+.gauge-labels{display:flex;justify-content:space-between;}
+.glbl{font-family:var(--mono);font-size:8px;font-weight:500;}
+.gl-s{color:var(--green);}.gl-f{color:var(--gold);}
 
-/* DIVIDEND LOG */
-.div-section{margin-top:2px;}
-.div-section-title{font-family:var(--mono);font-size:8px;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;font-weight:600;margin-bottom:8px;}
-.div-log-entries{max-height:120px;overflow-y:auto;margin-bottom:8px;}
-.div-entry{display:flex;justify-content:space-between;align-items:center;padding:5px 8px;background:var(--card);border-radius:7px;margin-bottom:4px;border:1px solid var(--border);}
-.div-entry-date{font-family:var(--mono);font-size:9px;color:var(--text3);}
-.div-entry-amount{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--green);}
-.div-entry-del{background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;padding:0 4px;line-height:1;}
-.div-add-row{display:flex;gap:6px;align-items:center;}
-.div-input{flex:1;background:var(--card);border:1.5px solid var(--border2);color:var(--text);border-radius:8px;padding:7px 10px;font-family:var(--mono);font-size:11px;outline:none;transition:border-color .2s;}
-.div-input:focus{border-color:var(--gold);}
-.div-date-input{width:110px;background:var(--card);border:1.5px solid var(--border2);color:var(--text);border-radius:8px;padding:7px 8px;font-family:var(--mono);font-size:10px;outline:none;transition:border-color .2s;}
-.div-date-input:focus{border-color:var(--gold);}
-.btn-log-div{background:var(--green);border:none;color:#fff;border-radius:8px;padding:7px 12px;font-family:var(--mono);font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(0,166,81,0.25);}
-.btn-log-div:active{transform:scale(0.95);}
-.div-total-row{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:var(--green-bg);border:1px solid var(--green-border);border-radius:8px;margin-bottom:8px;}
-.div-total-lbl{font-family:var(--mono);font-size:9px;color:var(--text3);}
-.div-total-val{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--green);}
-.btn-detail-refresh{background:var(--card);border:1.5px solid var(--border2);color:var(--text3);border-radius:8px;padding:6px 12px;font-family:var(--mono);font-size:9px;cursor:pointer;margin-top:8px;}
-.btn-detail-refresh:active{background:var(--bg3);}
+.scard-detail{border-top:1px solid var(--border);background:var(--bg2);padding:14px 18px;animation:slideDown .2s cubic-bezier(.4,0,.2,1);}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.detail-lbl{font-family:var(--mono);font-size:8px;color:var(--gold);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;font-weight:600;}
+.detail-text{font-family:var(--body);font-size:12px;color:var(--text2);line-height:1.65;}
+.verdict-chip{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:10px;font-weight:600;padding:5px 13px;border-radius:20px;}
+.vc-g{background:var(--green-bg);border:2px solid var(--green-border);color:var(--green);}
+.vc-a{background:var(--amber-bg);border:2px solid var(--amber-border);color:var(--amber);}
+.detail-52w{font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:8px;}
+.detail-actions{margin-top:12px;}
+.btn-ref{background:var(--card);border:1.5px solid var(--border2);color:var(--text3);border-radius:10px;padding:7px 14px;font-family:var(--mono);font-size:10px;cursor:pointer;transition:all .2s;font-weight:500;}
+.btn-ref:active{background:var(--bg3);}
 
-/* YIELD DISPLAY */
-.yield-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
-.yield-chip{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:8px;font-weight:500;}
-.yc-cost{background:var(--gold-bg);border:1px solid var(--gold-border);color:var(--gold);}
-.yc-market{background:var(--blue-bg);border:1px solid rgba(26,86,219,0.2);color:var(--blue);}
-.yc-projected{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);}
+/* STRIKE UPDATE BADGE */
+.strike-updated{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:8px;padding:2px 7px;margin-left:6px;font-weight:500;}
 
-/* ── CASH VIEW ── */
-.cash-view{padding:12px 14px 0;}
-.cash-account-card{background:var(--card);border:1.5px solid var(--gold-border);border-radius:16px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow);}
-.cash-acct-header{padding:14px 16px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--gold-bg),var(--card));}
-.cash-acct-title{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--navy);}
-.cash-acct-owner{font-family:var(--mono);font-size:8px;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px;}
-.cash-acct-row{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);}
-.cash-acct-row:last-child{border-bottom:none;}
-.car-name{font-family:var(--body);font-size:12px;font-weight:500;color:var(--navy);}
-.car-rate{font-family:var(--mono);font-size:9px;color:var(--green);background:var(--green-bg);padding:2px 7px;border-radius:6px;font-weight:500;}
-.car-val{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--navy);}
-.car-interest{font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:1px;}
-
-/* ── DIVIDEND VIEW ── */
-.div-view{padding:12px 14px 0;}
-.div-overview-card{background:var(--card);border:1.5px solid var(--green-border);border-radius:16px;padding:16px;margin-bottom:10px;box-shadow:var(--shadow);}
-.div-overview-title{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--green);margin-bottom:12px;}
-.div-big-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
-.div-big-item{background:var(--bg2);border-radius:12px;padding:10px 12px;border:1px solid var(--border);}
-.dbi-val{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--navy);}
-.dbi-lbl{font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-top:3px;}
-.div-stock-summary{background:var(--card);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
-.dss-header{display:grid;grid-template-columns:1fr 80px 80px 80px;gap:8px;padding:8px 12px;background:var(--bg2);border-bottom:1px solid var(--border);}
-.dss-hcell{font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;}
-.dss-row{display:grid;grid-template-columns:1fr 80px 80px 80px;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border);align-items:center;}
-.dss-row:last-child{border-bottom:none;}
-.dss-name{font-family:var(--body);font-size:11px;font-weight:500;color:var(--navy);}
-.dss-cell{font-family:var(--mono);font-size:10px;text-align:right;}
-
-/* ── FOOTER ── */
-.footer{padding:16px 14px;text-align:center;}
-.footer-update{font-family:var(--mono);font-size:9px;color:var(--text3);margin-bottom:4px;}
-.footer-note{font-family:var(--mono);font-size:8px;color:rgba(10,25,60,0.18);line-height:1.7;}
-
-/* FAB */
-.fab{position:fixed;bottom:24px;right:16px;z-index:200;width:46px;height:46px;border-radius:50%;background:var(--navy);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(10,25,60,0.28);transition:transform .2s;}
+.footer{padding:20px 16px;text-align:center;}
+.last-update{font-family:var(--mono);font-size:9px;color:var(--text3);margin-bottom:6px;}
+.footer-note{font-family:var(--mono);font-size:9px;color:rgba(10,25,60,0.2);line-height:1.7;}
+.empty-state{padding:48px 20px;text-align:center;}
+.empty-icon{font-size:42px;margin-bottom:14px;opacity:0.3;}
+.empty-text{font-family:var(--body);font-size:13px;color:var(--text3);line-height:1.6;}
+.fab{position:fixed;bottom:26px;right:18px;z-index:200;width:50px;height:50px;border-radius:50%;background:var(--navy);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(10,25,60,0.3);transition:transform .2s;}
 .fab:active{transform:scale(0.88);}
+
 </style>
 </head>
 <body>
 
 <div class="app">
-
-<!-- HEADER -->
-<div class="header">
-  <div class="header-inner">
-    <div class="header-brand">
-      <div class="header-icon">⚖</div>
-      <div>
-        <div class="header-title">McCall Portfolio</div>
-        <div class="header-sub" id="hdrDate">Loading...</div>
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <div class="header-icon">⚖</div>
+        <div>
+          <div class="header-title">Berkshire Watchlist</div>
+          <div class="header-date" id="hdrDate"></div>
+        </div>
       </div>
-    </div>
-    <div class="header-btns">
-      <button class="btn-refresh" id="refreshBtn" onclick="refreshAllPrices()">
-        <span class="ri">↻</span><span id="refreshTxt"> Refresh</span>
+      <button class="refresh-btn" id="refreshBtn" onclick="refreshAll()">
+        <span class="ri">↻</span><span id="refreshTxt">Refresh</span>
       </button>
     </div>
   </div>
-</div>
 
-<!-- NAV TABS -->
-<div class="nav-tabs">
-  <button class="nav-tab active" onclick="showView('dashboard',this)">📊 Overview</button>
-  <button class="nav-tab" onclick="showView('holdings',this)">📦 Holdings</button>
-  <button class="nav-tab" onclick="showView('cash',this)">💰 Cash</button>
-  <button class="nav-tab" onclick="showView('dividends',this)">🌿 Dividends</button>
-</div>
+  <div class="summary-strip" style="grid-template-columns:repeat(5,1fr);">
+    <div class="summary-item"><div class="summary-val" style="color:var(--navy)">33</div><div class="summary-label">Stocks</div></div>
+    <div class="summary-item"><div class="summary-val" style="color:var(--green)" id="sumG">—</div><div class="summary-label">Green</div></div>
+    <div class="summary-item"><div class="summary-val" style="color:var(--green)" id="sumBZ">—</div><div class="summary-label">Buy Zone</div></div>
+    <div class="summary-item"><div class="summary-val" style="color:var(--amber)" id="sumA">—</div><div class="summary-label">Monitor</div></div>
+    <div class="summary-item"><div class="summary-val" style="color:var(--text3);font-size:13px;" id="sumToday">—</div><div class="summary-label">Today £</div></div>
+  </div>
 
-<!-- VIEWS -->
-<div id="view-dashboard" class="dashboard"></div>
-<div id="view-holdings" class="holdings-view" style="display:none"></div>
-<div id="view-cash" class="cash-view" style="display:none"></div>
-<div id="view-dividends" class="div-view" style="display:none"></div>
+  <div class="cash-section">
+    <div class="cash-card">
+      <div id="cashCardInner"></div>
+    </div>
+  </div>
 
-<div class="footer">
-  <div class="footer-update" id="lastUpdate">Tap Refresh to load live prices</div>
-  <div class="footer-note">Private & offline · McCall Family Portfolio · Data from HL 31 May 2026<br/>Prices via AI — verify before trading · Not financial advice</div>
-</div>
+  <div class="legend-bar">
+    <div class="li"><div class="tl tl-g"></div>Hold / Buy</div>
+    <div class="li"><div class="tl tl-a"></div>Monitor</div>
+    <div class="li"><div class="tl tl-r"></div>Avoid</div>
+    <div class="li" style="color:var(--green);font-family:var(--mono);font-size:9px;font-weight:600;">● Green bar = Buy Zone</div>
+  </div>
+
+  <div class="tabs-wrap">
+    <button class="tab active" onclick="setFilter('all',this)">All (33)</button>
+    <button class="tab" onclick="setFilter('targets',this)">🎯 Targets</button>
+    <button class="tab" onclick="setFilter('holdings',this)">📦 Holdings</button>
+    <button class="tab" onclick="setFilter('uk',this)">🏛️ UK Watch</button>
+    <button class="tab" onclick="setFilter('intl',this)">🌍 Global</button>
+    <button class="tab" onclick="setFilter('buyzone',this)">✅ Buy Zone</button>
+    <button class="tab" onclick="setFilter('green',this)">🟢 Green</button>
+  </div>
+
+  <div class="sections" id="sections"></div>
+
+  <div class="footer">
+    <div class="last-update" id="lastUpdate">Tap Refresh to load live prices</div>
+    <div class="footer-note">McCall Private Watchlist · Offline Only · Strike prices updated May 2026<br/>Prices via Yahoo Finance · Last close always available · Not financial advice</div>
+  </div>
 </div>
 
 <button class="fab" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-// ══════════════════════════════════════════════════════════════
-//  PORTFOLIO DATA — McCall Family — 31 May 2026
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
+// ALL 33 STOCKS — STRIKE PRICES UPDATED MAY 2026
+// Strikes set at 8-18% below current market prices
+// incorporating fundamental fair value assessment
+// ══════════════════════════════════════════════════
+const SECTIONS=[
+  {id:'targets',emoji:'🎯',title:'Strike Targets',desc:'Actively Accumulating — May 2026',stocks:[
+    {sym:'GAMA.L',name:'Gamma Communications',idx:'FTSE 250',cur:'p',strike:860,fair:1300,tl:'a',moat:'Switching Costs',verdict:'⚠️ Takeover Bid Period',note:'OFFICIAL OFFER PERIOD — June 2026. Three bidders in preliminary talks: Providence Equity, Epiris, and Oakley Capital/Giacom consortium (considering ~£1bn bid). Under UK City Code rules. Business performing: EBITDA guidance £138-143m, near-zero net debt £1.6m. Strike 860p may be too low if bid materialises at 1,000-1,100p. Hold — do not buy below bid price. Watch bid deadlines: 10-12 June 2026.'},
+    {sym:'RMV.L',name:'Rightmove',idx:'FTSE 100',cur:'p',strike:390,fair:570,tl:'g',moat:'Network Effects',verdict:'Exceptional',note:'Near-monopoly UK property portal. 70% operating margin. ROIC 462%. Zero debt. Trading ~422p — strike at 390p gives ~8% cushion. Analyst consensus 569p. 52-week low 391p — already close to value territory.'},
+    {sym:'LGEN.L',name:'Legal & General',idx:'FTSE 100',cur:'p',strike:225,fair:300,tl:'g',moat:'Scale + Switching',verdict:'Strong Candidate',note:'9% dividend yield. Solvency II 210%. £1.2bn buyback 2026. Trading ~251p — strike 225p is ~10% below current and near multi-year support. Intrinsic value est. 280-320p.'},
+  ]},
+  {id:'holdings',emoji:'📦',title:'Current Holdings',desc:'16 Positions — Monitor Company Not Price',stocks:[
+    {sym:'BA.L',name:'BAE Systems',idx:'FTSE 100',cur:'p',strike:1980,fair:2500,tl:'g',moat:'Defence Contracts',verdict:'🟢 Hold with Confidence',note:'Record £83.6bn order backlog. Revenue +10% to £30.7bn. H1 2026 +11%. NATO 5% GDP is a decade tailwind. Current ~£21.80 — strike 1,980p gives ~9% add-on-dip opportunity. Strong re-rate potential to £25.'},
+    {sym:'BGEO.L',name:'Lion Finance (BoG)',idx:'FTSE 100',cur:'p',strike:4800,fair:6500,tl:'g',moat:'Dominant Franchise',verdict:'🟢 Hold with Confidence',note:'ROE 28.4%. Profit +21% Q1 2026. Cost-income 29.2%. 38% Georgian market share. Trading ~£54 — strike 4,800p is ~11% below for a top-up opportunity on this deeply undervalued bank (5-6x earnings).'},
+    {sym:'LUCE.L',name:'Luceco',idx:'FTSE 250',cur:'p',strike:200,fair:320,tl:'g',moat:'EV + Brand Scale',verdict:'🟢 Hold with Confidence',note:'Revenue +12%, EV charger sales +85%. Profit guidance upgraded twice in 2026. Trading ~230p — strike 200p is ~13% below. Electrification structural play with 18,000+ connected chargers.'},
+    {sym:'MAB1.L',name:'Mortgage Advice Bureau',idx:'AIM',cur:'p',strike:500,fair:720,tl:'g',moat:'AR Network',verdict:'🟢 Hold with Confidence',note:'ROIC 19.7%. FCF £35.5m at 121% cash conversion. Adviser base +10%. Trading ~560p — strike 500p gives ~11% add-on-weakness buffer. 19% more remortgages due in 2026 vs 2025.'},
+    {sym:'ATYM.L',name:'Atalaya Mining',idx:'FTSE 250',cur:'p',strike:920,fair:1350,tl:'g',moat:'Low-Cost Copper',verdict:'🟢 Hold with Confidence',note:'Revenue +48%, EBITDA +171%. Net cash €122m. Cash cost $2.40/lb vs ~$4.50/lb spot. Trading ~1,050p — strike 920p is ~12% below. Bid target speculation at ~£13/share adds upside catalyst.'},
+    {sym:'HSBA.L',name:'HSBC Holdings',idx:'FTSE 100',cur:'p',strike:1200,fair:1500,tl:'g',moat:'Global Network',verdict:'🟢 Hold with Confidence',note:'ROTE 15%+. Asia-pivot executing well. Morgan Stanley target 1,463p. Trading ~1,386p — strike 1,200p is ~13% below current for meaningful top-up opportunity. 52-week low 860p shows how far it has run.'},
+    {sym:'MONY.L',name:'MONY Group',idx:'FTSE 250',cur:'p',strike:148,fair:240,tl:'g',moat:'Network + Brand',verdict:'🟢 Hold with Confidence',note:'ROE 35%. 33% EBITDA margin. P/E ~8x. 8% yield. 1.5m+ SuperSaveClub members. Trading ~165p — strike 148p gives ~10% add-on-dip buffer on this profoundly undervalued quality business.'},
+    {sym:'IMI.L',name:'IMI plc',idx:'FTSE 100',cur:'p',strike:2400,fair:3100,tl:'g',moat:'Niche Engineering',verdict:'🟢 Hold with Confidence',note:'Fluid & motion control. Mid-single digit organic growth guided 4 years. Trading ~2,680p — strike 2,400p is ~10% below current. Consensus target £30.25. Disciplined acquirer with strong FCF.'},
+    {sym:'RIO.L',name:'Rio Tinto',idx:'FTSE 100',cur:'p',strike:4600,fair:6000,tl:'a',moat:'Low-Cost Assets',verdict:'🟡 Hold — Monitor',note:'EBITDA +9%. Arcadium lithium acquisition diversifying beyond iron ore. Trading ~5,100p — strike 4,600p is ~10% below with additional commodity cycle buffer. Watch: iron ore price vs Chinese steel demand.'},
+    {sym:'FSG.L',name:'Foresight Group',idx:'FTSE 250',cur:'p',strike:360,fair:560,tl:'a',moat:'Infra AUM',verdict:'🟡 Hold — Monitor',note:'AUM £13.7bn. Revenue +11%. Target: double FY2024 EBITDA by FY2029. Trading ~400p — strike 360p is ~10% below. Key catalyst: FEIP II (€1.25bn clean energy fund) fundraise progress.'},
+    {sym:'AAF.L',name:'Airtel Africa',idx:'FTSE 100',cur:'p',strike:320,fair:480,tl:'a',moat:'14-Country Network',verdict:'🟡 Hold — Monitor',note:'Revenue +29%, profit +209% FY2026. Trading ~390p — strike 320p is ~18% below, reflecting Nigerian naira currency risk buffer. D/E 2.02 creates mismatch risk between $ debt and local revenues.'},
+    {sym:'SN.L',name:'Smith & Nephew',idx:'FTSE 100',cur:'p',strike:900,fair:1300,tl:'a',moat:'Med-Tech IP',verdict:'🟡 Hold — Monitor',note:'12-Point Plan complete. Revenue +6.1%, FCF +52.5%, EPS +21%. ROIC improving to 8.3%. Trading ~1,020p — strike 900p is ~12% below for a top-up on turnaround completion. Watch: China VBP impact.'},
+    {sym:'RS1.L',name:'RS Group',idx:'FTSE 250',cur:'p',strike:470,fair:640,tl:'a',moat:'Distribution Width',verdict:'🟡 Hold — Monitor',note:'ROCE 15%. FCF conversion 107%. Dividend raised 2%. Trading ~530p — strike 470p is ~11% below for an add-on-weakness target as the industrial cycle recovers. Watch: Amazon Business competition.'},
+  ]},
+  {id:'uk',emoji:'🏛️',title:'Buffett UK Watchlist',desc:'Quality Compounders — Waiting for Price',stocks:[
+    {sym:'ULVR.L',name:'Unilever',idx:'FTSE 100',cur:'p',strike:4600,fair:5500,tl:'g',moat:'400 Global Brands',verdict:'Strong Candidate',note:'ROIC 19%. 400 consumer brands. Ice cream demerged. Trading ~5,380p — note Terry Smith has reportedly sold his holding (a concern). Strike 4,600p is ~15% below current and near 52-week low support. Strong franchise, watch execution.'},
+    {sym:'REL.L',name:'RELX',idx:'FTSE 100',cur:'p',strike:2100,fair:3500,tl:'g',moat:'Data + Workflows',verdict:'Strong — AI Overreaction',note:'Down 44% from highs. Organic revenue +7%. LexisNexis + Elsevier moats intact. Trading ~2,450p — strike 2,100p is ~14% below. Analyst consensus £37. AI fear is creating a genuine buying opportunity.'},
+    {sym:'SCT.L',name:'Softcat',idx:'FTSE 250',cur:'p',strike:1200,fair:1800,tl:'g',moat:'Switching Costs',verdict:'⬆️ Upgraded — Outstanding',note:'UPGRADED June 2026. Q3 2026: full-year guidance raised to MID-TEENS profit growth, up from high single-digit. H1: gross profit +22.6% to £269.9m, operating profit +27.3% — beat consensus by 15%. AI-enabled infrastructure demand driving strong corporate spend. Stock re-rated to ~1,560p. Strike raised to 1,200p and fair value to 1,800p to reflect stronger earnings trajectory.'},
+    {sym:'HLMA.L',name:'Halma',idx:'FTSE 100',cur:'p',strike:3150,fair:4400,tl:'g',moat:'Safety Tech Niches',verdict:'Strong Candidate',note:'23 consecutive record profit years. Revenue +11%. 112% cash conversion. Trading ~3,580p — strike 3,150p is ~12% below. Rarely cheap — use any broad market sell-off to initiate a position.'},
+    {sym:'EXPN.L',name:'Experian',idx:'FTSE 100',cur:'p',strike:2600,fair:3800,tl:'g',moat:'Credit Data',verdict:'⬆️ Upgraded — Record Year',note:'UPGRADED June 2026. FY2026 record year: Benchmark EPS +15%, total revenue +13% to $8.4bn, organic growth 8% at top of guidance. ROIC now 17.2% — crosses Buffett 15% threshold. New $1bn buyback announced. FY2027: double-digit EPS growth guided. Strike raised 2,600p, fair value 3,800p. Currently ~2,760p — just above new strike, wait for small pullback.'},
+    {sym:'BATS.L',name:'British American Tobacco',idx:'FTSE 100',cur:'p',strike:3800,fair:5200,tl:'a',moat:'Brand + Addiction',verdict:'Conditional Pass',note:'9% yield. Trading ~4,569p — has run significantly. Strike 3,800p is ~17% below reflecting litigation tail risk buffer. FCF £50bn target 2024-30. Debt declining to target range by end 2026.'},
+    {sym:'DGE.L',name:'Diageo',idx:'FTSE 100',cur:'p',strike:1380,fair:2200,tl:'r',moat:'Spirits Brands',verdict:'🔴 Company Failing — Avoid',note:'DOWNGRADED June 2026 — company failure, not price. Dividend HALVED by new CEO Sir Dave Lewis (103 cents → 50 cents minimum). Organic net sales down 2-3% for FY2026. US spirits volumes -9.3% H1. New payout policy 30-50% vs prior 63%. Shares fell 13% on results day — worst ever single day. Turnaround specialist appointed. Wait for August 2026 strategy update before any reconsideration.'},
+    {sym:'LLOY.L',name:'Lloyds Banking',idx:'FTSE 100',cur:'p',strike:85,fair:115,tl:'a',moat:'UK Mortgage Dominant',verdict:'Conditional Pass',note:'ROTE 16%+. Trading ~101p — strike 85p is ~16% below, reflecting FCA motor finance uncertainty buffer (potential £2-4bn liability). Wait for regulatory clarity before initiating.'},
+    {sym:'AZN.L',name:'AstraZeneca',idx:'FTSE 100',cur:'p',strike:10500,fair:14500,tl:'a',moat:'Patent Pipeline',verdict:'Wait for the Price',note:'World-class oncology. Trading ~13,500p — P/E 22-24x with minimal margin of safety. Strike 10,500p is ~22% below current. Magnificent business at the wrong price. $50bn US investment is capital-intensive.'},
+    {sym:'GSK.L',name:'GSK',idx:'FTSE 100',cur:'p',strike:1650,fair:2300,tl:'a',moat:'Vaccines + Pharma',verdict:'Watch Pipeline',note:'Shingrix blockbuster. Trading ~1,918p — P/E 13-14x modestly cheap. Strike 1,650p is ~14% below for a margin of safety. Pipeline transition: RSV vaccine + oncology candidates need to convert.'},
+  ]},
+  {id:'intl',emoji:'🌍',title:'International Picks',desc:'ISA Eligible via HL + W-8BEN — Updated May 2026',stocks:[
+    {sym:'NVO',name:'Novo Nordisk',idx:'NYSE',cur:'$',strike:40,fair:65,tl:'a',moat:'GLP-1 + Peptide IP',verdict:'🟡 Monitor — Structural Headwinds',note:'DOWNGRADED June 2026. Q1 2026: adjusted sales (ex $4.2bn provision reversal) declined 4% at CER. Ozempic US pricing eroding 10-15% annually. Oral Wegovy beat estimates nearly 2x — genuine positive catalyst. ADA conference 7 June is next key data event. CagriSema data and oral GLP-1 commercial momentum are the bull case. Hold existing view — wait for June ADA before adding.'},
+    {sym:'V',name:'Visa',idx:'NYSE',cur:'$',strike:320,fair:420,tl:'g',moat:'Payment Network',verdict:'🎯 At Strike — Watch for Dip',note:'AT STRIKE June 2026 — trading ~$327, just 2% above strike $320. Q2 FY2026: revenue +17% to $11.2bn — strongest growth since 2013. GAAP EPS +36%, non-GAAP EPS +20%. Payments volume +9%, cross-border +12%. $9.2bn returned to shareholders in ONE quarter. New $20bn buyback authorised. Critically: Visa bought back shares at avg $320.66 in Q2 — management buying at exactly your strike. Analyst consensus $395.71. Watching for dip to $320 or below. Ensure W-8BEN current on HL to avoid 30% dividend withholding.'},
+    {sym:'AXP',name:'American Express',idx:'NYSE',cur:'$',strike:260,fair:330,tl:'g',moat:'Closed-Loop Network',verdict:'Strong Candidate',note:'Berkshire owns 21%. Closed-loop network knows every customer and spend pattern. ROE 30%+. Trading ~$295 — strike $260 is ~12% below. P/E ~18x cheaper than Visa. Affluent cardholder base = low churn.'},
+    {sym:'WKL',name:'Wolters Kluwer',idx:'Euronext',cur:'€',strike:58,fair:110,tl:'g',moat:'Professional Data',verdict:'Strong Candidate',note:"RELX's Dutch twin — down 55% on AI fear. Trading €65 — strike €58 is ~11% below. P/E 11x. ROIC 25%. 3.5% yield. Analyst consensus €106.50 — 64% upside from current. €500m buyback programme active. Buy rated by Kepler and Barclays."},
+    {sym:'MCO',name:"Moody's Corp",idx:'NYSE',cur:'$',strike:420,fair:560,tl:'a',moat:'Ratings Oligopoly',verdict:'Wait for Better Price',note:'Buffett-held 20+ years. Government-mandated ratings oligopoly. ROIC 20%+. Trading ~$490 — strike $420 is ~14% below. P/E 32-35x still rich. Analytics SaaS division growing. Patience needed for a better entry.'},
+    {sym:'ASML',name:'ASML Holding',idx:'NASDAQ',cur:'$',strike:720,fair:950,tl:'a',moat:'EUV Monopoly',verdict:'Monitor for Entry',note:'Sole EUV chip machine maker. ROIC 74%. Trading ~$850 — strike $720 is ~15% below. 2026 guidance €36-40bn. Forward P/E still ~42x. Q1 gross margin 53%. Breathtaking business — needs a meaningful pullback for Buffett-style entry.'},
+    {sym:'NESN',name:'Nestlé',idx:'SIX',cur:'CHF',strike:70,fair:108,tl:'a',moat:'Global Brand Portfolio',verdict:'Watch Turnaround',note:'29 consecutive years of dividend growth. ~4% CHF yield. Trading ~Fr77 — strike Fr70 is ~9% below. New CEO strategic reset underway. ROIC declining — needs to stabilise. Nescafé, KitKat, Purina brands are world-class. Watch for recovery signs.'},
+  ]},
+];
 
-// Annual dividend per share (pence) — estimated from current yields
-const DIV_PER_SHARE = {
-  'ATYM.L': 35,    // Atalaya ~4% yield est
-  'B41YBW7': 0,    // Fundsmith accumulation — no dividend
-  'GAMA.L': 22,    // Gamma ~2.3% yield
-  'HSBA.L': 76,    // HSBC ~5.5% yield
-  'IMI.L':  82,    // IMI ~3% yield
-  'LUCE.L': 8,     // Luceco ~3% yield
-  'MAB1.L': 28,    // MAB ~5.2% yield
-  'SN.L':   16,    // S&N ~1.4% yield
-  'AAF.L':  8,     // Airtel Africa ~2% yield
-  'BA.L':   34,    // BAE Systems ~1.6% yield
-  'FSG.L':  18,    // Foresight ~4.2% yield
-  'BGEO.L': 450,   // Lion Finance ~4% yield
-  'MONY.L': 14,    // MONY ~8.5% yield
-  'RIO.L':  400,   // Rio Tinto ~8% yield
-  'RS1.L':  24,    // RS Group ~3.6% yield
+// ══════════════════ STATE ══════════════════
+let prices={},filter='all',refreshing=false;
+
+// Real cash ISA accounts from HL — updated 31 May 2026
+const CASH_ACCOUNTS=[
+  {owner:'Max',   bank:'HL/Shawbrook', rate:4.01, balance:20373.73},
+  {owner:'Max',   bank:'UBL UK',       rate:4.00, balance:12194.57},
+  {owner:'Max',   bank:'Zopa',         rate:3.45, balance:11.07},
+  {owner:'Glynis',bank:'HL/Shawbrook', rate:4.01, balance:19480.09},
+];
+const CASH_TOTAL = CASH_ACCOUNTS.reduce((a,c)=>a+c.balance,0); // £52,059.46
+
+// Real holdings from HL — updated 31 May 2026
+// {sym, units, costTotal, costPP (pence per share)}
+const HOLDINGS_DATA = {
+  'ATYM.L': {units:2064,  costTotal:7043.81},
+  'BGEO.L': {units:342,   costTotal:16113.53},
+  'LUCE.L': {units:3333,  costTotal:4532.88},
+  'MAB1.L': {units:758,   costTotal:4005.10},
+  'HSBA.L': {units:2808,  costTotal:17219.58},
+  'MONY.L': {units:3424,  costTotal:6374.14},
+  'IMI.L':  {units:740,   costTotal:11891.80},
+  'RIO.L':  {units:80,    costTotal:4063.20},
+  'FSG.L':  {units:762,   costTotal:3011.56},
+  'AAF.L':  {units:2800,  costTotal:2655.80},
+  'SN.L':   {units:300,   costTotal:3243.00},
+  'RS1.L':  {units:1039,  costTotal:7416.43},
+  'BA.L':   {units:480,   costTotal:5961.60},
 };
 
-const HOLDINGS = [
-  // MAX'S ISA
-  {sym:'ATYM.L', name:'Atalaya Mining',         owner:'Max',   cur:'p', units:2064,   costTotal:7043.81,   lastPriceHL:880},
-  {sym:'B41YBW7',name:'Fundsmith Equity',        owner:'Max',   cur:'p', units:15938.82,costTotal:112147.44, lastPriceHL:705.10, isFund:true},
-  {sym:'GAMA.L', name:'Gamma Communications',    owner:'Max',   cur:'p', units:409,    costTotal:4026.58,   lastPriceHL:963},
-  {sym:'HSBA.L', name:'HSBC Holdings',           owner:'Max',   cur:'p', units:2808,   costTotal:17219.58,  lastPriceHL:1392.40},
-  {sym:'IMI.L',  name:'IMI plc',                 owner:'Max',   cur:'p', units:740,    costTotal:11891.80,  lastPriceHL:2786},
-  {sym:'LUCE.L', name:'Luceco',                  owner:'Max',   cur:'p', units:3333,   costTotal:4532.88,   lastPriceHL:266},
-  {sym:'MAB1.L', name:'Mortgage Advice Bureau',  owner:'Max',   cur:'p', units:758,    costTotal:4005.10,   lastPriceHL:535},
-  {sym:'SN.L',   name:'Smith & Nephew',          owner:'Max',   cur:'p', units:300,    costTotal:3243.00,   lastPriceHL:1114.50},
-  // GLYNIS'S ISA
-  {sym:'AAF.L',  name:'Airtel Africa',           owner:'Glynis',cur:'p', units:2800,   costTotal:2655.80,   lastPriceHL:346.20},
-  {sym:'BA.L',   name:'BAE Systems',             owner:'Glynis',cur:'p', units:480,    costTotal:5961.60,   lastPriceHL:2023},
-  {sym:'FSG.L',  name:'Foresight Group',         owner:'Glynis',cur:'p', units:762,    costTotal:3011.56,   lastPriceHL:436.50},
-  {sym:'B41YBW7G',name:'Fundsmith Equity',       owner:'Glynis',cur:'p', units:13998.04,costTotal:100535.31, lastPriceHL:705.10, isFund:true, fetchSym:'B41YBW7'},
-  {sym:'BGEO.L', name:'Lion Finance (BoG)',       owner:'Glynis',cur:'p', units:342,    costTotal:16113.53,  lastPriceHL:11140},
-  {sym:'MONY.L', name:'MONY Group',              owner:'Glynis',cur:'p', units:3424,   costTotal:6374.14,   lastPriceHL:176.30},
-  {sym:'RIO.L',  name:'Rio Tinto',               owner:'Glynis',cur:'p', units:80,     costTotal:4063.20,   lastPriceHL:7986},
-  {sym:'RS1.L',  name:'RS Group',                owner:'Glynis',cur:'p', units:1039,   costTotal:7416.43,   lastPriceHL:667},
-];
-
-const CASH_ACCOUNTS = [
-  {owner:'Max',   bank:'HL / Shawbrook', rate:4.01, balance:20373.73},
-  {owner:'Max',   bank:'UBL UK',         rate:4.00, balance:12194.57},
-  {owner:'Max',   bank:'Zopa',           rate:3.45, balance:11.07},
-  {owner:'Glynis',bank:'HL / Shawbrook', rate:4.01, balance:19480.09},
-];
-
-// ══════════════════════════════════════════════════════════════
-//  STATE — persisted in localStorage
-// ══════════════════════════════════════════════════════════════
-let prices = {};
-let dividends = {}; // {sym: [{date, amount}]}
-let currentView = 'dashboard';
-let holdingsFilter = 'all';
-let refreshing = false;
-
-function loadState() {
-  try { dividends = JSON.parse(localStorage.getItem('mcDividends')||'{}'); } catch(e){ dividends={}; }
-  try { prices = JSON.parse(localStorage.getItem('mcPrices')||'{}'); } catch(e){ prices={}; }
-}
-function saveState() {
-  localStorage.setItem('mcDividends', JSON.stringify(dividends));
-  localStorage.setItem('mcPrices', JSON.stringify(prices));
+// ══════════════════ CASH ══════════════════
+function fmtGBP(n,d=0){return'£'+Number(n).toLocaleString('en-GB',{minimumFractionDigits:d,maximumFractionDigits:d});}
+function renderCashCard(){
+  const totalInterest = CASH_ACCOUNTS.reduce((a,c)=>a+(c.balance*c.rate/100),0);
+  const c = document.getElementById('cashCardInner');
+  if(!c) return;
+  c.innerHTML = `
+    <div class="cash-hdr">
+      <div><div class="cash-title">Cash ISAs</div><div class="cash-sub">Max &amp; Glynis McCall</div></div>
+      <div><div class="cash-avail">${fmtGBP(CASH_TOTAL,2)}</div><div class="cash-avail-lbl">Total Cash</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
+      ${CASH_ACCOUNTS.map(ca=>`
+        <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg2);border-radius:10px;padding:8px 12px;border:1px solid var(--border);">
+          <div>
+            <div style="font-family:var(--body);font-size:12px;font-weight:500;color:var(--navy);">${ca.owner} · ${ca.bank}</div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--green);margin-top:2px;">${ca.rate}% AER · ~${fmtGBP(ca.balance*ca.rate/100,0)}/yr</div>
+          </div>
+          <div style="font-family:var(--mono);font-size:14px;font-weight:600;color:var(--navy);">${fmtGBP(ca.balance,2)}</div>
+        </div>`).join('')}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div class="cs-box"><div class="cs-val" style="color:var(--green);">${fmtGBP(totalInterest,0)}</div><div class="cs-lbl">Proj. Interest/yr</div></div>
+      <div class="cs-box"><div class="cs-val" style="color:var(--navy);">${fmtGBP(CASH_TOTAL,0)}</div><div class="cs-lbl">Total Available</div></div>
+    </div>`;
 }
 
-// ══════════════════════════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════════════════════════
-function fmt(n, dec=0){ return n==null?'—':Number(n).toLocaleString('en-GB',{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
-function fmtP(n){ return n==null?'—':fmt(n,0)+'p'; }
-function fmtGBP(n, dec=0){ return n==null?'—':'£'+fmt(Math.abs(n),dec); }
-function fmtPct(n, dec=1){ return n==null?'—':(n>=0?'+':'')+Number(n).toFixed(dec)+'%'; }
-function fmtDayChange(n){ return n==null?'—':(n>=0?'+':'')+Number(n).toFixed(2)+'%'; }
-
-function getPrice(h) {
-  const sym = h.fetchSym || h.sym;
-  return prices[sym]?.price ?? h.lastPriceHL;
-}
-function getValue(h){ return (getPrice(h) * h.units) / 100; }
-function getCostPP(h){ return (h.costTotal / h.units) * 100; } // pence per share
-function getGL(h){ return getValue(h) - h.costTotal; }
-function getGLPct(h){ return (getGL(h) / h.costTotal) * 100; }
-function getTotalDivs(sym){ return (dividends[sym]||[]).reduce((a,d)=>a+d.amount,0); }
-function getProjectedAnnualDiv(h){ return ((DIV_PER_SHARE[h.sym]||0) * h.units)/100; }
-function getTotalReturn(h){ return getGL(h) + getTotalDivs(h.sym); }
-function getTotalReturnPct(h){ return (getTotalReturn(h) / h.costTotal) * 100; }
-function getYieldOnCost(h){
-  const dps = DIV_PER_SHARE[h.sym]||0;
-  const cpp = getCostPP(h);
-  return cpp>0 ? (dps/cpp)*100 : 0;
-}
-function getYieldOnMarket(h){
-  const dps = DIV_PER_SHARE[h.sym]||0;
-  const mp = getPrice(h);
-  return mp>0 ? (dps/mp)*100 : 0;
-}
-
-// Portfolio totals
-function getTotals(filter='all'){
-  const hs = filter==='all' ? HOLDINGS : HOLDINGS.filter(h=>h.owner===filter);
-  const totalCost = hs.reduce((a,h)=>a+h.costTotal,0);
-  const totalVal = hs.reduce((a,h)=>a+getValue(h),0);
-  const totalGL = totalVal - totalCost;
-  const totalDivs = hs.reduce((a,h)=>a+getTotalDivs(h.sym),0);
-  const projDiv = hs.reduce((a,h)=>a+getProjectedAnnualDiv(h),0);
-  const totalReturn = totalGL + totalDivs;
-  const dayChangeParts = hs.map(h=>{ const sym=h.fetchSym||h.sym; const pct=prices[sym]?.changePct; if(pct==null)return null; return getValue(h)*pct/100; }).filter(v=>v!=null);
-  const totalDayGBP = dayChangeParts.length>0 ? dayChangeParts.reduce((a,v)=>a+v,0) : null;
-  return {totalCost,totalVal,totalGL,totalGLPct:(totalGL/totalCost)*100,totalDivs,projDiv,totalReturn,totalReturnPct:(totalReturn/totalCost)*100,totalDayGBP};
-}
-function getCashTotal(){ return CASH_ACCOUNTS.reduce((a,c)=>a+c.balance,0); }
-function getCashInterest(){ return CASH_ACCOUNTS.reduce((a,c)=>a+(c.balance*c.rate/100),0); }
-
-// ══════════════════════════════════════════════════════════════
-//  PRICE FETCH — Twelve Data API (8 credits/min free tier)
-// ══════════════════════════════════════════════════════════════
+// ══════════════════ FETCH — Twelve Data API ══════════════════
+// Free tier: 8 credits/minute. Each symbol = 1 credit.
+// Strategy: fetch in batches of 8, 65 second gap between batches
 const TDKEY='1690b9528b814da28f9e12d34a3394ac';
 
-const TD_PORT={
-  'ATYM.L':'ATYM:LON','GAMA.L':'GAMA:LON','HSBA.L':'HSBA:LON',
-  'IMI.L':'IMI:LON',  'LUCE.L':'LUCE:LON','MAB1.L':'MAB:LON',
-  'SN.L':'SN.:LON',   'AAF.L':'AAF:LON',  'BA.L':'BA.:LON',
-  'FSG.L':'FSG:LON',  'BGEO.L':'BGEO:LON','MONY.L':'MONY:LON',
-  'RIO.L':'RIO:LON',  'RS1.L':'RS1:LON',
+// Correct Twelve Data symbol format for each stock
+const TD_SYM={
+  // UK LSE stocks — format: SYMBOL:LON
+  'GAMA.L':'GAMA:XLON','RMV.L':'RMV:XLON',  'LGEN.L':'LGEN:XLON',
+  'BA.L':'BA:XLON',   'BGEO.L':'BGEO:XLON', 'LUCE.L':'LUCE:XLON',
+  'MAB1.L':'MAB:XLON', 'ATYM.L':'ATYM:XLON', 'HSBA.L':'HSBA:XLON',
+  'MONY.L':'MONY:XLON','IMI.L':'IMI:XLON',   'RIO.L':'RIO:XLON',
+  'FSG.L':'FSG:XLON',  'AAF.L':'AAF:XLON',   'SN.L':'SN:XLON',
+  'RS1.L':'RS1:XLON',  'ULVR.L':'ULVR:XLON', 'REL.L':'REL:XLON',
+  'SCT.L':'SCT:XLON',  'HLMA.L':'HLMA:XLON', 'EXPN.L':'EXPN:XLON',
+  'BATS.L':'BATS:XLON','DGE.L':'DGE:XLON',   'LLOY.L':'LLOY:XLON',
+  'AZN.L':'AZN:XLON',  'GSK.L':'GSK:XLON',
+  // US — plain symbol
+  'NVO':'NVO','V':'V','AXP':'AXP','MCO':'MCO','ASML':'ASML',
+  // European
+  'WKL':'WKL:XAMS','NESN':'NESN:XSWX',
 };
-const TD_PORT_REV=Object.fromEntries(Object.entries(TD_PORT).map(([k,v])=>[v,k]));
+// Reverse lookup
+const TD_REV=Object.fromEntries(Object.entries(TD_SYM).map(([k,v])=>[v,k]));
 
 function isHosted(){return window.location.protocol==='https:'||window.location.protocol==='http:';}
 
+// Fetch a batch of up to 8 symbols (free tier limit per minute)
 async function fetchBatch(appSyms){
-  const tdSyms=appSyms.map(s=>TD_PORT[s]).filter(Boolean);
+  const tdSyms=appSyms.map(s=>TD_SYM[s]).filter(Boolean);
   if(!tdSyms.length) return;
-  const url=`https://api.twelvedata.com/quote?symbol=${encodeURIComponent(tdSyms.join(','))}&apikey=${TDKEY}&dp=2`;
+  const symStr=tdSyms.join(',');
+  const url=`https://api.twelvedata.com/quote?symbol=${encodeURIComponent(symStr)}&apikey=${TDKEY}&dp=2`;
   try{
     const r=await fetch(url);
     if(!r.ok) throw new Error(`HTTP ${r.status}`);
     const data=await r.json();
     const ts=Date.now();
-    const entries=tdSyms.length===1?[[tdSyms[0],data]]:Object.entries(data);
+    // Single symbol returns object directly, multiple returns {SYM:{...}, SYM:{...}}
+    const entries = tdSyms.length===1
+      ? [[tdSyms[0], data]]
+      : Object.entries(data);
     entries.forEach(([tdSym,d])=>{
       if(!d||d.status==='error') return;
-      const appSym=TD_PORT_REV[tdSym]||tdSym;
+      const appSym=TD_REV[tdSym]||tdSym;
       const price=parseFloat(d.close);
       if(!isNaN(price)&&price>0){
-        prices[appSym]={price,change:parseFloat(d.change)||null,changePct:parseFloat(d.percent_change)||null,ts};
+        prices[appSym]={
+          price,
+          change:parseFloat(d.change)||null,
+          changePct:parseFloat(d.percent_change)||null,
+          ts
+        };
       }
     });
-    saveState();
-  }catch(e){ console.warn('TD batch failed:',e.message); }
+  }catch(e){
+    console.warn('TD batch failed:',e.message);
+  }
 }
 
+// Single symbol refresh for card button
 async function fetchPrice(sym){
   if(!isHosted()) return null;
   await fetchBatch([sym]);
   return prices[sym]||null;
 }
 
-// Legacy stub — not used but referenced in some places
-async function fetchAllPrices(){ return false; }
+// ══════════════════ FORMAT ══════════════════
+function fmt(v,cur){
+  if(v==null)return'—';const n=Number(v);
+  if(cur==='$')return'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  if(cur==='€')return'€'+n.toFixed(2);
+  if(cur==='CHF')return'Fr'+n.toFixed(2);
+  return n.toLocaleString('en-GB',{maximumFractionDigits:0})+'p';
+}
+function fmtPct(v){if(v==null)return'—';return(v>=0?'+':'')+Number(v).toFixed(2)+'%';}
 
-async function refreshAllPrices(){
-  if(refreshing) return;
-  refreshing = true;
-  const btn = document.getElementById('refreshBtn');
+// ══════════════════ PORTFOLIO HELPERS ══════════════════
+function getHolding(sym){ return HOLDINGS_DATA[sym]||null; }
+function getPriceNum(sym){ return prices[sym]?.price??null; }
+function getPortValue(sym){
+  const h=getHolding(sym); const p=getPriceNum(sym);
+  if(!h||!p) return null;
+  return (p*h.units)/100;
+}
+function getPortGL(sym){
+  const v=getPortValue(sym); const h=getHolding(sym);
+  if(!h||v==null) return null;
+  return v-h.costTotal;
+}
+function getPortGLPct(sym){
+  const gl=getPortGL(sym); const h=getHolding(sym);
+  if(!h||gl==null) return null;
+  return (gl/h.costTotal)*100;
+}
+function getDayGBP(sym){
+  const v=getPortValue(sym); const pct=prices[sym]?.changePct;
+  if(v==null||pct==null) return null;
+  return v*pct/100;
+}
+function getPortfolioTodayTotal(){
+  let total=0, count=0;
+  Object.keys(HOLDINGS_DATA).forEach(sym=>{
+    const d=getDayGBP(sym);
+    if(d!=null){total+=d;count++;}
+  });
+  return count>0?total:null;
+}
+
+// ══════════════════ SUMMARY ══════════════════
+function updateSummary(){
+  const all=SECTIONS.flatMap(s=>s.stocks);
+  document.getElementById('sumG').textContent=all.filter(s=>s.tl==='g').length;
+  document.getElementById('sumA').textContent=all.filter(s=>s.tl==='a').length;
+  document.getElementById('sumBZ').textContent=all.filter(s=>{const p=prices[s.sym]?.price;return p!=null&&p<=s.strike;}).length;
+  // Portfolio today total
+  const todayEl=document.getElementById('sumToday');
+  if(todayEl){
+    const t=getPortfolioTodayTotal();
+    if(t!=null){
+      todayEl.textContent=(t>=0?'+':'')+'£'+Math.abs(t).toLocaleString('en-GB',{maximumFractionDigits:0});
+      todayEl.style.color=t>=0?'var(--green)':'var(--red)';
+    } else {
+      todayEl.textContent='—';todayEl.style.color='var(--text3)';
+    }
+  }
+}
+
+// ══════════════════ RENDER ══════════════════
+function render(){
+  const c=document.getElementById('sections');c.innerHTML='';
+  let secs=SECTIONS;
+  if(['targets','holdings','uk','intl'].includes(filter))secs=SECTIONS.filter(s=>s.id===filter);
+  secs.forEach(sec=>{
+    let stocks=[...sec.stocks];
+    if(filter==='buyzone')stocks=stocks.filter(s=>{const p=prices[s.sym]?.price;return p!=null&&p<=s.strike;});
+    if(filter==='green')stocks=stocks.filter(s=>s.tl==='g');
+    if((filter==='buyzone'||filter==='green')&&stocks.length===0)return;
+    const isOpen=localStorage.getItem('so_'+sec.id)!=='0';
+    const wrap=document.createElement('div');wrap.className='section';
+    const hdr=document.createElement('div');
+    hdr.className='sec-hdr'+(isOpen?' open':'');
+    hdr.innerHTML=`<div><div class="sec-emoji">${sec.emoji}</div><div class="sec-title">${sec.title}</div><div class="sec-desc">${sec.desc}</div></div><div class="sec-right"><span class="sec-count">${stocks.length}</span><span class="sec-chev${isOpen?' open':''}">▶</span></div>`;
+    hdr.addEventListener('click',()=>{
+      const l=wrap.querySelector('.stock-list'),ch=hdr.querySelector('.sec-chev'),op=l.style.display!=='none';
+      l.style.display=op?'none':'flex';l.style.flexDirection='column';
+      ch.classList.toggle('open',!op);hdr.classList.toggle('open',!op);
+      localStorage.setItem('so_'+sec.id,op?'0':'1');
+    });
+    wrap.appendChild(hdr);
+    const list=document.createElement('div');list.className='stock-list';
+    list.style.display=isOpen?'flex':'none';list.style.flexDirection='column';
+    stocks.forEach(s=>list.appendChild(mkCard(s)));
+    wrap.appendChild(list);c.appendChild(wrap);
+  });
+  if((filter==='buyzone'||filter==='green')&&c.children.length===0){
+    c.innerHTML=`<div class="empty-state"><div class="empty-icon">👀</div><div class="empty-text">${filter==='buyzone'?'No stocks currently in buy zone.<br>Tap Refresh to load live prices.':'No green-rated stocks match this filter.'}</div></div>`;
+  }
+}
+
+function mkCard(stk){
+  const card=document.createElement('div');card.className='scard';card.id='c_'+stk.sym.replace(/\W/g,'_');
+  const p=prices[stk.sym],price=p?.price??null;
+  const inZ=price!=null&&price<=stk.strike;
+  if(inZ)card.classList.add('buy-zone');else if(stk.tl==='a')card.classList.add('amber-zone');
+  const tl={g:'tl-g',a:'tl-a',r:'tl-r'}[stk.tl];
+  const vs=price!=null?((price-stk.strike)/stk.strike*100):null;
+  const up=price!=null?((stk.fair-price)/price*100):null;
+  const lo=Math.min(stk.strike*0.82,price!=null?price*0.85:stk.strike*0.82);
+  const hi=Math.max(stk.fair*1.15,price!=null?price*1.15:stk.fair*1.15);
+  const np=price!=null?Math.max(3,Math.min(97,(price-lo)/(hi-lo)*100)):50;
+  const sid=stk.sym.replace(/\W/g,'_');
+  card.innerHTML=`
+    <div class="scard-main">
+      <div class="scard-left">
+        <div class="nameline">
+          <div class="tl ${tl}"></div>
+          <span class="scard-name">${stk.name}</span>
+          ${inZ?'<span class="buy-pill"><span class="bd"></span>BUY</span>':''}
+        </div>
+        <div class="scard-meta">
+          <span class="sym-tag">${stk.sym}</span><span class="sep">·</span>
+          <span class="idx-tag">${stk.idx}</span>
+          <span class="moat-tag">${stk.moat}</span>
+        </div>
+      </div>
+      <div class="scard-right">
+        <div class="scard-price${price==null?' loading':''}" id="pr_${sid}">${price!=null?fmt(price,stk.cur):'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'}</div>
+        <div class="scard-change" id="ch_${sid}">${p?.changePct!=null?`<span class="${p.changePct>=0?'up':'dn'}">${p.changePct>=0?'▲':'▼'} ${fmtPct(p.changePct)}</span>`:''}</div>
+        <div class="scard-cur">${stk.cur}</div>
+      </div>
+    </div>
+    <div class="gauge-wrap">
+      <div class="gauge-track">
+        <div class="gauge-fill" id="gf_${sid}" style="width:${np}%"></div>
+        <div class="gauge-needle" id="gn_${sid}" style="left:${np}%"></div>
+      </div>
+      <div class="gauge-labels">
+        <span class="glbl gl-s">▸ ${fmt(stk.strike,stk.cur)}</span>
+        <span class="glbl gl-f">${fmt(stk.fair,stk.cur)} ◂</span>
+      </div>
+    </div>
+    <div class="scard-metrics">
+      <div class="metric"><div class="metric-label">Strike</div><div class="metric-val mv-g">${fmt(stk.strike,stk.cur)}</div></div>
+      <div class="metric"><div class="metric-label">vs Strike</div><div class="metric-val ${vs==null?'mv-dim':vs<=0?'mv-g':'mv-a'}" id="vs_${sid}">${vs!=null?(vs>=0?'+':'')+vs.toFixed(1)+'%':'—'}</div></div>
+      <div class="metric"><div class="metric-label">Upside to Fair</div><div class="metric-val mv-gold" id="up_${sid}">${up!=null?'+'+up.toFixed(0)+'%':'—'}</div></div>
+    </div>`;
+  card.addEventListener('click',()=>toggleDetail(card,stk));return card;
+}
+
+function toggleDetail(card,stk){
+  const ex=card.querySelector('.scard-detail');if(ex){ex.remove();return;}
+  const p=prices[stk.sym];
+  const vcls=stk.tl==='g'?'vc-g':'vc-a';
+  const d=document.createElement('div');d.className='scard-detail';
+  d.innerHTML=`<div class="detail-lbl">Investment Thesis · Strike updated May 2026</div><div class="detail-text">${stk.note}</div><div class="verdict-chip ${vcls}">${stk.verdict}</div>${p?.week52Low?`<div class="detail-52w">52-Week Range: ${fmt(p.week52Low,stk.cur)} — ${fmt(p.week52High,stk.cur)}</div>`:''}<div class="detail-actions"><button class="btn-ref">↻ Refresh Price</button></div>`;
+  d.querySelector('.btn-ref').addEventListener('click',e=>{e.stopPropagation();refreshOne(stk.sym);});
+  card.appendChild(d);
+}
+
+function updateCard(sym){
+  const stk=SECTIONS.flatMap(s=>s.stocks).find(s=>s.sym===sym);if(!stk)return;
+  const p=prices[sym];if(!p)return;
+  const sid=sym.replace(/\W/g,'_'),price=p.price;
+  const inZ=price<=stk.strike,vs=(price-stk.strike)/stk.strike*100,up=(stk.fair-price)/price*100;
+  const lo=Math.min(stk.strike*0.82,price*0.85),hi=Math.max(stk.fair*1.15,price*1.15);
+  const np=Math.max(3,Math.min(97,(price-lo)/(hi-lo)*100));
+  const pe=document.getElementById('pr_'+sid);if(pe){pe.textContent=fmt(price,stk.cur);pe.classList.remove('loading');}
+  const ce=document.getElementById('ch_'+sid);
+  if(ce&&p.changePct!=null){
+    const dayGBP=getDayGBP(sym);
+    const dayStr=dayGBP!=null?` <span style="font-size:9px;">(${dayGBP>=0?'+':'-'}£${Math.abs(dayGBP).toLocaleString('en-GB',{maximumFractionDigits:0})})</span>`:'';
+    ce.innerHTML=`<span class="${p.changePct>=0?'up':'dn'}">${p.changePct>=0?'▲':'▼'} ${fmtPct(p.changePct)}${dayStr}</span>`;
+  }
+  const ve=document.getElementById('vs_'+sid);if(ve){ve.textContent=(vs>=0?'+':'')+vs.toFixed(1)+'%';ve.className='metric-val '+(vs<=0?'mv-g':'mv-a');}
+  const ue=document.getElementById('up_'+sid);if(ue)ue.textContent='+'+up.toFixed(0)+'%';
+  const gf=document.getElementById('gf_'+sid);if(gf)gf.style.width=np+'%';
+  const gn=document.getElementById('gn_'+sid);if(gn)gn.style.left=np+'%';
+  const card=document.getElementById('c_'+sid);
+  if(card&&inZ){card.classList.add('buy-zone');card.classList.remove('amber-zone');if(!card.querySelector('.buy-pill')){const bp=document.createElement('span');bp.className='buy-pill';bp.innerHTML='<span class="bd"></span>BUY';card.querySelector('.nameline')?.appendChild(bp);}}
+  // Portfolio row — show value, GL and today £ for holdings
+  const h=getHolding(sym);
+  if(h&&card){
+    let portRow=card.querySelector('.port-row');
+    const portVal=getPortValue(sym);
+    const portGL=getPortGL(sym);
+    const portGLPct=getPortGLPct(sym);
+    const todayGBP=getDayGBP(sym);
+    if(portVal!=null){
+      if(!portRow){
+        portRow=document.createElement('div');
+        portRow.className='port-row';
+        portRow.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);background:rgba(10,25,60,0.02);';
+        const metricsEl=card.querySelector('.scard-metrics');
+        if(metricsEl)metricsEl.after(portRow);
+      }
+      portRow.innerHTML=`
+        <div style="padding:7px 10px;text-align:center;border-right:1px solid var(--border);">
+          <div style="font-family:var(--mono);font-size:7px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;">Held</div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:600;color:var(--navy);">${h.units.toLocaleString('en-GB')}</div>
+        </div>
+        <div style="padding:7px 10px;text-align:center;border-right:1px solid var(--border);">
+          <div style="font-family:var(--mono);font-size:7px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;">Value</div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:600;color:var(--blue);">£${portVal.toLocaleString('en-GB',{maximumFractionDigits:0})}</div>
+        </div>
+        <div style="padding:7px 10px;text-align:center;border-right:1px solid var(--border);">
+          <div style="font-family:var(--mono);font-size:7px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;">G/L</div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:600;color:${portGL>=0?'var(--green)':'var(--red)'};">${portGL>=0?'+':'-'}£${Math.abs(portGL).toLocaleString('en-GB',{maximumFractionDigits:0})} (${portGLPct>=0?'+':''}${portGLPct.toFixed(1)}%)</div>
+        </div>
+        <div style="padding:7px 10px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:7px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;">Today £</div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:600;color:${todayGBP==null?'var(--text3)':todayGBP>=0?'var(--green)':'var(--red)'};">${todayGBP!=null?(todayGBP>=0?'+':'-')+'£'+Math.abs(todayGBP).toLocaleString('en-GB',{maximumFractionDigits:0}):'—'}</div>
+        </div>`;
+    }
+  }
+  const det=card?.querySelector('.scard-detail');
+  if(det&&p.week52Low){let w=det.querySelector('.detail-52w');if(!w){w=document.createElement('div');w.className='detail-52w';det.querySelector('.detail-actions').before(w);}w.textContent=`52-Week: ${fmt(p.week52Low,stk.cur)} — ${fmt(p.week52High,stk.cur)}`;}
+  updateSummary();
+}
+
+async function refreshOne(sym){await fetchPrice(sym);updateCard(sym);}
+
+async function refreshAll(){
+  if(refreshing)return; refreshing=true;
+  const btn=document.getElementById('refreshBtn');
   btn.classList.add('spinning');
   if(!isHosted()){
-    document.getElementById('lastUpdate').textContent='⚠️ Open via GitHub Pages URL to load live prices';
-    btn.classList.remove('spinning');
-    document.getElementById('refreshTxt').textContent=' Refresh';
-    refreshing=false; return;
+    document.getElementById('lastUpdate').textContent='⚠️ Open via GitHub Pages URL to load prices';
+    btn.classList.remove('spinning'); refreshing=false; return;
   }
-  // Fetch one stock at a time with 8 second gaps to respect 8/min rate limit
-  const syms=Object.keys(TD_PORT);
-  for(let i=0;i<syms.length;i++){
-    document.getElementById('refreshTxt').textContent=` ${i+1}/${syms.length}`;
-    document.getElementById('lastUpdate').textContent=`Loading ${syms[i]}... (${i+1} of ${syms.length})`;
-    await fetchBatch([syms[i]]);
-    // Re-render after each stock so prices appear as they load
-    renderDashboard();
-    if(currentView==='holdings') renderHoldings();
-    if(i<syms.length-1) await new Promise(r=>setTimeout(r,8000));
+  // Priority order: holdings first, then targets, then watchlist
+  const priority=['ATYM.L','BGEO.L','HSBA.L','BA.L','IMI.L','MONY.L',
+    'LUCE.L','MAB1.L','RIO.L','AAF.L','SN.L','RS1.L','FSG.L',
+    'GAMA.L','RMV.L','LGEN.L',
+    'ULVR.L','REL.L','SCT.L','HLMA.L','EXPN.L','BATS.L',
+    'DGE.L','LLOY.L','AZN.L','GSK.L',
+    'NVO','V','AXP','WKL','MCO','ASML','NESN'];
+  for(let i=0;i<priority.length;i++){
+    const sym=priority[i];
+    document.getElementById('refreshTxt').textContent=`${i+1}/${priority.length}`;
+    document.getElementById('lastUpdate').textContent=
+      `Loading ${sym}... (${i+1} of ${priority.length})`;
+    await fetchBatch([sym]);
+    updateCard(sym);
+    updateSummary();
+    if(i<priority.length-1) await new Promise(r=>setTimeout(r,8000));
   }
-  // Final full render when complete
-  renderCurrentView();
-  renderDashboard();
   btn.classList.remove('spinning');
-  document.getElementById('refreshTxt').textContent = ' Refresh';
-  document.getElementById('lastUpdate').textContent = 'Yahoo Finance · Updated '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-  refreshing = false;
-  renderCurrentView();
+  document.getElementById('refreshTxt').textContent='Refresh';
+  document.getElementById('lastUpdate').textContent=
+    'Twelve Data · Updated '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  refreshing=false; updateSummary();
 }
 
-// ══════════════════════════════════════════════════════════════
-//  VIEW ROUTING
-// ══════════════════════════════════════════════════════════════
-function showView(view, tabEl){
-  currentView = view;
-  ['dashboard','holdings','cash','dividends'].forEach(v=>{
-    document.getElementById('view-'+v).style.display = v===view?'block':'none';
-  });
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  if(tabEl) tabEl.classList.add('active');
-  renderCurrentView();
+function setFilter(f,el){
+  filter=f;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');render();
 }
 
-function renderCurrentView(){
-  if(currentView==='dashboard') renderDashboard();
-  else if(currentView==='holdings') renderHoldings();
-  else if(currentView==='cash') renderCash();
-  else if(currentView==='dividends') renderDividendsView();
-}
-
-// ══════════════════════════════════════════════════════════════
-//  DASHBOARD
-// ══════════════════════════════════════════════════════════════
-function renderDashboard(){
-  const c = document.getElementById('view-dashboard');
-  const t = getTotals('all');
-  const maxT = getTotals('Max');
-  const glynT = getTotals('Glynis');
-  const cashTotal = getCashTotal();
-  const cashInterest = getCashInterest();
-  const grandTotal = t.totalVal + cashTotal;
-
-  c.innerHTML = `
-    <div class="family-header">
-      <div>
-        <div class="family-title">Family Portfolio</div>
-        <div class="family-sub">Max &amp; Glynis McCall · May 2026</div>
-      </div>
-      <div class="family-total">
-        <div class="family-total-val">£${fmt(grandTotal,0)}</div>
-        <div class="family-total-lbl">Combined Total</div>
-      </div>
-    </div>
-
-    <div class="stats-grid">
-      <div class="stat-card highlight">
-        <div class="stat-label">Stocks &amp; Funds Value</div>
-        <div class="stat-val" style="color:var(--navy)">£${fmt(t.totalVal,0)}</div>
-        <div class="stat-sub" style="color:var(--text3)">Cost: £${fmt(t.totalCost,0)}</div>
-      </div>
-      <div class="stat-card ${t.totalGL>=0?'green-hi':'red-hi'}">
-        <div class="stat-label">Capital Gain / Loss</div>
-        <div class="stat-val" style="color:${t.totalGL>=0?'var(--green)':'var(--red)'}">${t.totalGL>=0?'+':''}£${fmt(t.totalGL,0)}</div>
-        <div class="stat-sub" style="color:${t.totalGL>=0?'var(--green)':'var(--red)'}">${fmtPct(t.totalGLPct)} on cost</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Dividends Received</div>
-        <div class="stat-val" style="color:var(--green)">£${fmt(t.totalDivs,2)}</div>
-        <div class="stat-sub" style="color:var(--text3)">Projected: £${fmt(t.projDiv,0)}/yr</div>
-      </div>
-      <div class="stat-card ${t.totalDayGBP==null?'':t.totalDayGBP>=0?'green-hi':'red-hi'}">
-        <div class="stat-label">Today's Move</div>
-        <div class="stat-val" style="color:${t.totalDayGBP==null?'var(--text3)':t.totalDayGBP>=0?'var(--green)':'var(--red)'}">${t.totalDayGBP!=null?(t.totalDayGBP>=0?'+':'-')+'£'+fmt(Math.abs(t.totalDayGBP),0):'Refresh prices'}</div>
-        <div class="stat-sub" style="color:var(--text3)">${t.totalDayGBP!=null?'Across all priced holdings':'Tap Refresh above'}</div>
-      </div>
-      <div class="stat-card green-hi">
-        <div class="stat-label">Total Return</div>
-        <div class="stat-val" style="color:${t.totalReturn>=0?'var(--green)':'var(--red)'}">${t.totalReturn>=0?'+':''}£${fmt(t.totalReturn,0)}</div>
-        <div class="stat-sub" style="color:${t.totalReturn>=0?'var(--green)':'var(--red)'}">${fmtPct(t.totalReturnPct)} incl. dividends</div>
-      </div>
-    </div>
-
-    <div class="acct-row">
-      <div class="acct-card">
-        <div class="acct-owner">Max's ISA</div>
-        <div class="acct-name">Stocks &amp; Shares</div>
-        <div class="acct-val">£${fmt(maxT.totalVal,0)}</div>
-        <div class="acct-gl" style="color:${maxT.totalGL>=0?'var(--green)':'var(--red)'}">${maxT.totalGL>=0?'+':''}£${fmt(maxT.totalGL,0)} (${fmtPct(maxT.totalGLPct)})</div>
-      </div>
-      <div class="acct-card">
-        <div class="acct-owner">Glynis's ISA</div>
-        <div class="acct-name">Stocks &amp; Shares</div>
-        <div class="acct-val">£${fmt(glynT.totalVal,0)}</div>
-        <div class="acct-gl" style="color:${glynT.totalGL>=0?'var(--green)':'var(--red)'}">${glynT.totalGL>=0?'+':''}£${fmt(glynT.totalGL,0)} (${fmtPct(glynT.totalGLPct)})</div>
-      </div>
-    </div>
-
-    <div class="cash-strip">
-      <div class="cash-strip-title">💰 Cash ISAs — £${fmt(cashTotal,2)}</div>
-      ${CASH_ACCOUNTS.map(ca=>`
-        <div class="cash-strip-row">
-          <div class="csr-left"><span class="csr-owner">${ca.owner}</span>${ca.bank}</div>
-          <div class="csr-right">
-            <span class="csr-rate">${ca.rate}%</span>
-            <span class="csr-val">£${fmt(ca.balance,2)}</span>
-          </div>
-        </div>`).join('')}
-      <div class="cash-strip-row" style="background:var(--bg2);border-radius:0 0 10px 10px;">
-        <div class="csr-left" style="font-weight:600;color:var(--navy)">Projected annual interest</div>
-        <div class="csr-right"><span class="csr-val" style="color:var(--green)">£${fmt(cashInterest,0)}</span></div>
-      </div>
-    </div>
-
-    <div class="div-summary">
-      <div class="div-summary-title">🌿 Income Summary</div>
-      <div class="div-grid">
-        <div><div class="div-item-val">£${fmt(t.projDiv,0)}</div><div class="div-item-lbl">Projected Stock Dividends/yr</div></div>
-        <div><div class="div-item-val">£${fmt(cashInterest,0)}</div><div class="div-item-lbl">Projected Cash Interest/yr</div></div>
-        <div><div class="div-item-val">£${fmt(t.projDiv+cashInterest,0)}</div><div class="div-item-lbl">Total Projected Income/yr</div></div>
-        <div><div class="div-item-val">£${fmt(t.totalDivs,2)}</div><div class="div-item-lbl">Dividends Logged to Date</div></div>
-      </div>
-    </div>`;
-}
-
-// ══════════════════════════════════════════════════════════════
-//  HOLDINGS
-// ══════════════════════════════════════════════════════════════
-function renderHoldings(){
-  const c = document.getElementById('view-holdings');
-  const filtered = holdingsFilter==='all' ? HOLDINGS : HOLDINGS.filter(h=>h.owner===holdingsFilter);
-
-  c.innerHTML = `
-    <div class="holdings-header">
-      <div class="holdings-title">${holdingsFilter==='all'?'All Holdings':holdingsFilter+"'s Holdings"}</div>
-      <div class="owner-filter">
-        <button class="of-btn ${holdingsFilter==='all'?'active':''}" onclick="filterHoldings('all',this)">All</button>
-        <button class="of-btn ${holdingsFilter==='Max'?'active':''}" onclick="filterHoldings('Max',this)">Max</button>
-        <button class="of-btn ${holdingsFilter==='Glynis'?'active':''}" onclick="filterHoldings('Glynis',this)">Glynis</button>
-      </div>
-    </div>
-    <div id="holdingsList"></div>`;
-
-  const list = document.getElementById('holdingsList');
-  filtered.forEach(h => list.appendChild(buildHoldingCard(h)));
-}
-
-function filterHoldings(f, el){
-  holdingsFilter = f;
-  document.querySelectorAll('.of-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('holdingsList').innerHTML='';
-  const filtered = f==='all' ? HOLDINGS : HOLDINGS.filter(h=>h.owner===f);
-  const list = document.getElementById('holdingsList');
-  filtered.forEach(h=>list.appendChild(buildHoldingCard(h)));
-}
-
-function buildHoldingCard(h){
-  const price = getPrice(h);
-  const val = getValue(h);
-  const gl = getGL(h);
-  const glPct = getGLPct(h);
-  const sym = h.fetchSym || h.sym;
-  const pData = prices[sym];
-  const dayChangePct = pData?.changePct ?? null;
-  const dayChangeGBP = dayChangePct!=null ? (val * dayChangePct/100) : null;
-  const totalDivs = getTotalDivs(h.sym);
-  const totalReturn = getTotalReturn(h);
-  const totalReturnPct = getTotalReturnPct(h);
-  const projAnnualDiv = getProjectedAnnualDiv(h);
-  const yieldCost = getYieldOnCost(h);
-  const yieldMarket = getYieldOnMarket(h);
-
-  const glClass = gl>=0 ? 'gain' : Math.abs(glPct)<1 ? 'neutral' : 'loss';
-  const dotClass = gl>=0 ? 'gld-g' : Math.abs(glPct)<1 ? 'gld-n' : 'gld-r';
-
-  const card = document.createElement('div');
-  card.className = `hcard ${glClass}`;
-  card.id = 'hcard_'+h.sym.replace(/\W/g,'_');
-
-  card.innerHTML = `
-    <div class="hcard-top">
-      <div class="hcard-left">
-        <div class="hcard-nameline">
-          <div class="gl-dot ${dotClass}"></div>
-          <span class="hcard-name">${h.name}</span>
-        </div>
-        <div class="hcard-meta">
-          <span class="hcard-sym">${h.sym}</span>
-          <span class="hcard-owner-tag">${h.owner}</span>
-          <span class="hcard-units">${fmt(h.units,h.isFund?3:0)} ${h.isFund?'units':'shares'}</span>
-        </div>
-      </div>
-      <div class="hcard-right">
-        <div class="hcard-price ${price===h.lastPriceHL?'':''}">
-          ${fmtP(price)}
-        </div>
-        <div class="hcard-daychange">
-          ${dayChangePct!=null
-            ? `<span class="${dayChangePct>=0?'up':'dn'}">${dayChangePct>=0?'▲':'▼'} ${Math.abs(dayChangePct).toFixed(2)}%</span>
-               <span class="${dayChangePct>=0?'up':'dn'}" style="margin-left:4px;font-size:10px;">(${dayChangeGBP>=0?'+':'-'}£${fmt(Math.abs(dayChangeGBP),0)})</span>`
-            : '<span style="color:var(--text3)">—</span>'}
-        </div>
-      </div>
-    </div>
-    <div class="hcard-perf">
-      <div class="perf-cell">
-        <div class="perf-label">Value</div>
-        <div class="perf-val pv-blue">£${fmt(val,0)}</div>
-      </div>
-      <div class="perf-cell">
-        <div class="perf-label">Gain £</div>
-        <div class="perf-val ${gl>=0?'pv-g':'pv-r'}">${gl>=0?'+':''}£${fmt(Math.abs(gl),0)}</div>
-      </div>
-      <div class="perf-cell">
-        <div class="perf-label">Gain %</div>
-        <div class="perf-val ${gl>=0?'pv-g':'pv-r'}">${fmtPct(glPct)}</div>
-      </div>
-      <div class="perf-cell">
-        <div class="perf-label">Today £</div>
-        <div class="perf-val ${dayChangeGBP==null?'pv-dim':dayChangeGBP>=0?'pv-g':'pv-r'}">${dayChangeGBP!=null?(dayChangeGBP>=0?'+':'-')+'£'+fmt(Math.abs(dayChangeGBP),0):'—'}</div>
-      </div>
-    </div>`;
-
-  card.addEventListener('click', ()=>toggleHoldingDetail(card, h));
-  return card;
-}
-
-function toggleHoldingDetail(card, h){
-  const existing = card.querySelector('.hcard-detail');
-  if(existing){ existing.remove(); return; }
-
-  const price = getPrice(h);
-  const val = getValue(h);
-  const gl = getGL(h);
-  const glPct = getGLPct(h);
-  const costPP = getCostPP(h);
-  const totalDivs = getTotalDivs(h.sym);
-  const projAnnualDiv = getProjectedAnnualDiv(h);
-  const yieldCost = getYieldOnCost(h);
-  const yieldMarket = getYieldOnMarket(h);
-  const totalReturn = getTotalReturn(h);
-  const totalReturnPct = getTotalReturnPct(h);
-  const sym = h.fetchSym || h.sym;
-  const p52 = prices[sym];
-  const dayChangePct = p52?.changePct ?? null;
-  const dayChangeGBP = dayChangePct!=null ? (val * dayChangePct/100) : null;
-
-  const divEntries = (dividends[h.sym]||[]);
-
-  const det = document.createElement('div');
-  det.className = 'hcard-detail';
-  det.innerHTML = `
-    <div class="detail-grid">
-      <div class="detail-box">
-        <div class="detail-box-label">Units / Shares</div>
-        <div class="detail-box-val">${fmt(h.units, h.isFund?3:0)}</div>
-        <div class="detail-box-sub">${h.isFund?'Accumulation units':'Ordinary shares'}</div>
-      </div>
-      <div class="detail-box">
-        <div class="detail-box-label">Avg Cost / Share</div>
-        <div class="detail-box-val">${fmtP(costPP)}</div>
-        <div class="detail-box-sub">Total: £${fmt(h.costTotal,2)}</div>
-      </div>
-      <div class="detail-box">
-        <div class="detail-box-label">Current Price</div>
-        <div class="detail-box-val">${fmtP(price)}</div>
-        <div class="detail-box-sub">${p52?.week52Low?`52W: ${fmtP(p52.week52Low)}–${fmtP(p52.week52High)}`:'—'}</div>
-      </div>
-      <div class="detail-box">
-        <div class="detail-box-label">Today's Move</div>
-        <div class="detail-box-val" style="color:${dayChangeGBP==null?'var(--text3)':dayChangeGBP>=0?'var(--green)':'var(--red)'}">${dayChangeGBP!=null?(dayChangeGBP>=0?'+':'-')+'£'+fmt(Math.abs(dayChangeGBP),2):'—'}</div>
-        <div class="detail-box-sub">${dayChangePct!=null?(dayChangePct>=0?'▲':'▼')+' '+Math.abs(dayChangePct).toFixed(2)+'%':''}</div>
-      </div>
-      <div class="detail-box">
-        <div class="detail-box-label">Current Value</div>
-        <div class="detail-box-val">£${fmt(val,2)}</div>
-        <div class="detail-box-sub" style="color:${gl>=0?'var(--green)':'var(--red)'}">${gl>=0?'+':''}£${fmt(gl,2)} (${fmtPct(glPct)})</div>
-      </div>
-      <div class="detail-box">
-        <div class="detail-box-label">Dividends Received</div>
-        <div class="detail-box-val" style="color:var(--green)">£${fmt(totalDivs,2)}</div>
-        <div class="detail-box-sub">Logged manually below</div>
-      </div>
-      <div class="detail-box">
-        <div class="detail-box-label">Total Return</div>
-        <div class="detail-box-val" style="color:${totalReturn>=0?'var(--green)':'var(--red)'}">${totalReturn>=0?'+':''}£${fmt(totalReturn,2)}</div>
-        <div class="detail-box-sub" style="color:${totalReturn>=0?'var(--green)':'var(--red)'}">${fmtPct(totalReturnPct)} incl. divs</div>
-      </div>
-    </div>
-    ${!h.isFund ? `
-    <div class="yield-chips">
-      <span class="yield-chip yc-cost">Yield on Cost: ${yieldCost.toFixed(1)}%</span>
-      <span class="yield-chip yc-market">Yield on Price: ${yieldMarket.toFixed(1)}%</span>
-      <span class="yield-chip yc-projected">Proj. £/yr: £${fmt(projAnnualDiv,0)}</span>
-    </div>` : '<div style="font-family:var(--mono);font-size:9px;color:var(--text3);margin-bottom:4px;">Accumulation fund — dividends reinvested automatically</div>'}
-    <div class="div-section" style="margin-top:12px;">
-      <div class="div-section-title">📋 Dividend Log</div>
-      ${totalDivs>0?`<div class="div-total-row"><span class="div-total-lbl">Total received to date</span><span class="div-total-val">£${fmt(totalDivs,2)}</span></div>`:''}
-      <div class="div-log-entries" id="divlog_${h.sym.replace(/\W/g,'_')}">
-        ${divEntries.length===0?'<div style="font-family:var(--mono);font-size:9px;color:var(--text3);padding:4px 0;">No dividends logged yet</div>':''}
-        ${divEntries.map((d,i)=>`
-          <div class="div-entry">
-            <span class="div-entry-date">${d.date}</span>
-            <span class="div-entry-amount">+£${fmt(d.amount,2)}</span>
-            <button class="div-entry-del" onclick="delDiv('${h.sym}',${i},event)">×</button>
-          </div>`).join('')}
-      </div>
-      <div class="div-add-row">
-        <input class="div-date-input" type="date" id="divdate_${h.sym.replace(/\W/g,'_')}" value="${new Date().toISOString().split('T')[0]}"/>
-        <input class="div-input" type="number" id="divamt_${h.sym.replace(/\W/g,'_')}" placeholder="£ amount"/>
-        <button class="btn-log-div" onclick="logDiv('${h.sym}',event)">+ Log</button>
-      </div>
-    </div>
-    <button class="btn-detail-refresh" onclick="refreshOne('${h.fetchSym||h.sym}',event)">↻ Refresh Price</button>`;
-
-  card.appendChild(det);
-}
-
-function logDiv(sym, e){
-  e.stopPropagation();
-  const safeSym = sym.replace(/\W/g,'_');
-  const dateEl = document.getElementById('divdate_'+safeSym);
-  const amtEl = document.getElementById('divamt_'+safeSym);
-  const amt = parseFloat(amtEl.value);
-  if(isNaN(amt)||amt<=0) return;
-  if(!dividends[sym]) dividends[sym]=[];
-  dividends[sym].push({date:dateEl.value||new Date().toISOString().split('T')[0], amount:amt});
-  saveState();
-  amtEl.value='';
-  // Rebuild the detail
-  const h = HOLDINGS.find(h=>h.sym===sym);
-  const card = document.getElementById('hcard_'+sym.replace(/\W/g,'_'));
-  if(card){ card.querySelector('.hcard-detail')?.remove(); toggleHoldingDetail(card,h); }
-  renderCurrentView();
-}
-
-function delDiv(sym, idx, e){
-  e.stopPropagation();
-  if(!dividends[sym]) return;
-  dividends[sym].splice(idx,1);
-  saveState();
-  const h = HOLDINGS.find(h=>h.sym===sym);
-  const card = document.getElementById('hcard_'+sym.replace(/\W/g,'_'));
-  if(card){ card.querySelector('.hcard-detail')?.remove(); toggleHoldingDetail(card,h); }
-  renderCurrentView();
-}
-
-async function refreshOne(sym, e){
-  if(e) e.stopPropagation();
-  await fetchPrice(sym);
-  renderCurrentView();
-}
-
-// ══════════════════════════════════════════════════════════════
-//  CASH VIEW
-// ══════════════════════════════════════════════════════════════
-function renderCash(){
-  const c = document.getElementById('view-cash');
-  const cashTotal = getCashTotal();
-  const cashInterest = getCashInterest();
-
-  const maxCash = CASH_ACCOUNTS.filter(a=>a.owner==='Max');
-  const glynCash = CASH_ACCOUNTS.filter(a=>a.owner==='Glynis');
-
-  c.innerHTML = `
-    <div style="margin-bottom:10px;">
-      <div style="font-family:var(--serif);font-size:18px;font-weight:700;color:var(--navy);margin-bottom:4px;">Cash ISAs</div>
-      <div style="font-family:var(--mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;">Total: £${fmt(cashTotal,2)} · Projected interest: £${fmt(cashInterest,0)}/yr</div>
-    </div>
-
-    <div class="cash-account-card">
-      <div class="cash-acct-header">
-        <div class="cash-acct-owner">Max McCall</div>
-        <div class="cash-acct-title">Cash ISA — £${fmt(maxCash.reduce((a,c)=>a+c.balance,0),2)}</div>
-      </div>
-      ${maxCash.map(ca=>`
-        <div class="cash-acct-row">
-          <div>
-            <div class="car-name">${ca.bank}</div>
-            <div style="font-family:var(--mono);font-size:8px;color:var(--text3);">Easy Access · Variable</div>
-          </div>
-          <div style="text-align:right;">
-            <div class="car-rate">${ca.rate}% AER</div>
-            <div class="car-val">£${fmt(ca.balance,2)}</div>
-            <div class="car-interest">~£${fmt(ca.balance*ca.rate/100,0)}/yr interest</div>
-          </div>
-        </div>`).join('')}
-    </div>
-
-    <div class="cash-account-card">
-      <div class="cash-acct-header">
-        <div class="cash-acct-owner">Glynis McCall</div>
-        <div class="cash-acct-title">Cash ISA — £${fmt(glynCash.reduce((a,c)=>a+c.balance,0),2)}</div>
-      </div>
-      ${glynCash.map(ca=>`
-        <div class="cash-acct-row">
-          <div>
-            <div class="car-name">${ca.bank}</div>
-            <div style="font-family:var(--mono);font-size:8px;color:var(--text3);">Easy Access · Variable</div>
-          </div>
-          <div style="text-align:right;">
-            <div class="car-rate">${ca.rate}% AER</div>
-            <div class="car-val">£${fmt(ca.balance,2)}</div>
-            <div class="car-interest">~£${fmt(ca.balance*ca.rate/100,0)}/yr interest</div>
-          </div>
-        </div>`).join('')}
-    </div>
-
-    <div style="background:var(--card);border:1.5px solid var(--green-border);border-radius:14px;padding:14px;box-shadow:var(--shadow);">
-      <div style="font-family:var(--serif);font-size:13px;font-weight:600;color:var(--green);margin-bottom:10px;">Combined Cash Summary</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <div style="background:var(--bg2);border-radius:10px;padding:10px 12px;border:1px solid var(--border);">
-          <div style="font-family:var(--mono);font-size:17px;font-weight:600;color:var(--navy);">£${fmt(cashTotal,2)}</div>
-          <div style="font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;margin-top:3px;">Total Cash</div>
-        </div>
-        <div style="background:var(--bg2);border-radius:10px;padding:10px 12px;border:1px solid var(--border);">
-          <div style="font-family:var(--mono);font-size:17px;font-weight:600;color:var(--green);">£${fmt(cashInterest,0)}</div>
-          <div style="font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;margin-top:3px;">Projected Interest/yr</div>
-        </div>
-      </div>
-    </div>`;
-}
-
-// ══════════════════════════════════════════════════════════════
-//  DIVIDENDS VIEW
-// ══════════════════════════════════════════════════════════════
-function renderDividendsView(){
-  const c = document.getElementById('view-dividends');
-  const t = getTotals('all');
-  const cashInterest = getCashInterest();
-  const stockHoldings = HOLDINGS.filter(h=>!h.isFund);
-
-  c.innerHTML = `
-    <div class="div-overview-card">
-      <div class="div-overview-title">Income Overview</div>
-      <div class="div-big-grid">
-        <div class="div-big-item">
-          <div class="dbi-val" style="color:var(--green)">£${fmt(t.projDiv,0)}</div>
-          <div class="dbi-lbl">Projected Stock Divs/yr</div>
-        </div>
-        <div class="div-big-item">
-          <div class="dbi-val" style="color:var(--green)">£${fmt(cashInterest,0)}</div>
-          <div class="dbi-lbl">Projected Cash Interest/yr</div>
-        </div>
-        <div class="div-big-item">
-          <div class="dbi-val" style="color:var(--navy)">£${fmt(t.projDiv+cashInterest,0)}</div>
-          <div class="dbi-lbl">Total Projected Income/yr</div>
-        </div>
-        <div class="div-big-item">
-          <div class="dbi-val" style="color:var(--gold)">£${fmt(t.totalDivs,2)}</div>
-          <div class="dbi-lbl">Dividends Logged to Date</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="div-stock-summary">
-      <div class="dss-header">
-        <div class="dss-hcell">Stock</div>
-        <div class="dss-hcell" style="text-align:right">Proj/yr</div>
-        <div class="dss-hcell" style="text-align:right">Logged</div>
-        <div class="dss-hcell" style="text-align:right">Yld/Cost</div>
-      </div>
-      ${stockHoldings.map(h=>{
-        const proj = getProjectedAnnualDiv(h);
-        const logged = getTotalDivs(h.sym);
-        const yoc = getYieldOnCost(h);
-        return `<div class="dss-row">
-          <div>
-            <div class="dss-name">${h.name}</div>
-            <div style="font-family:var(--mono);font-size:8px;color:var(--gold);">${h.owner}</div>
-          </div>
-          <div class="dss-cell" style="color:var(--green)">£${fmt(proj,0)}</div>
-          <div class="dss-cell" style="color:${logged>0?'var(--navy)':'var(--text3)'}">£${fmt(logged,2)}</div>
-          <div class="dss-cell" style="color:var(--gold)">${yoc.toFixed(1)}%</div>
-        </div>`;
-      }).join('')}
-      <div class="dss-row" style="background:var(--bg2);font-weight:600;">
-        <div><div class="dss-name" style="font-weight:700;">Total</div></div>
-        <div class="dss-cell" style="color:var(--green);font-weight:700;">£${fmt(stockHoldings.reduce((a,h)=>a+getProjectedAnnualDiv(h),0),0)}</div>
-        <div class="dss-cell" style="color:var(--navy);font-weight:700;">£${fmt(stockHoldings.reduce((a,h)=>a+getTotalDivs(h.sym),0),2)}</div>
-        <div class="dss-cell">—</div>
-      </div>
-    </div>
-
-    <div style="margin-top:10px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);">
-      <div style="font-family:var(--mono);font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">How to log a dividend</div>
-      <div style="font-family:var(--body);font-size:12px;color:var(--text2);line-height:1.6;">Go to <strong>Holdings</strong> tab → tap any stock card → scroll to Dividend Log → enter the date and £ amount → tap <strong>+ Log</strong>. The total return figures update automatically.</div>
-    </div>`;
-}
-
-// ══════════════════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════════════════
 function init(){
-  loadState();
-  const d = new Date();
-  document.getElementById('hdrDate').textContent =
-    d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'}).toUpperCase();
-  renderDashboard();
-  // Pre-load a few key prices quietly
-  ['HSBA.L','BGEO.L','IMI.L','ATYM.L','BA.L'].forEach(sym=>
-    fetchPrice(sym).then(()=>{ if(currentView==='dashboard') renderDashboard(); else if(currentView==='holdings') renderHoldings(); })
-  );
+  const d=new Date();
+  document.getElementById('hdrDate').textContent=d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'}).toUpperCase();
+  renderCashCard();
+  render();
+  updateSummary();
+  // Pre-load priority stocks immediately — holdings first so portfolio rows populate quickly
+  if(isHosted()){
+    // Load first 8 priority stocks immediately on startup
+    const priority=['ATYM.L','BGEO.L','HSBA.L','BA.L','IMI.L','MONY.L','GAMA.L','RMV.L'];
+    fetchBatch(priority).then(()=>priority.forEach(s=>updateCard(s)));
+    document.getElementById('lastUpdate').textContent='Tap Refresh to load all prices (takes ~3 min due to API limits)';
+  } else {
+    document.getElementById('lastUpdate').textContent='⚠️ Open via your GitHub Pages URL to load live prices';
+  }
 }
 init();
 </script>
