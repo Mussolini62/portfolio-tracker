@@ -449,9 +449,14 @@ async function refreshAllPrices(){
     document.getElementById('refreshTxt').textContent=` ${i+1}/${syms.length}`;
     document.getElementById('lastUpdate').textContent=`Loading ${syms[i]}... (${i+1} of ${syms.length})`;
     await fetchBatch([syms[i]]);
-    renderCurrentView();
+    // Re-render after each stock so prices appear as they load
+    renderDashboard();
+    if(currentView==='holdings') renderHoldings();
     if(i<syms.length-1) await new Promise(r=>setTimeout(r,8000));
   }
+  // Final full render when complete
+  renderCurrentView();
+  renderDashboard();
   btn.classList.remove('spinning');
   document.getElementById('refreshTxt').textContent = ' Refresh';
   document.getElementById('lastUpdate').textContent = 'Yahoo Finance · Updated '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
