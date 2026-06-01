@@ -443,19 +443,14 @@ async function refreshAllPrices(){
     document.getElementById('refreshTxt').textContent=' Refresh';
     refreshing=false; return;
   }
+  // Fetch one stock at a time with 8 second gaps to respect 8/min rate limit
   const syms=Object.keys(TD_PORT);
-  const BATCH=8;
-  let loaded=0;
-  for(let i=0;i<syms.length;i+=BATCH){
-    const batch=syms.slice(i,i+BATCH);
-    document.getElementById('refreshTxt').textContent=` ${loaded}/${syms.length}`;
-    await fetchBatch(batch);
-    loaded+=batch.length;
+  for(let i=0;i<syms.length;i++){
+    document.getElementById('refreshTxt').textContent=` ${i+1}/${syms.length}`;
+    document.getElementById('lastUpdate').textContent=`Loading ${syms[i]}... (${i+1} of ${syms.length})`;
+    await fetchBatch([syms[i]]);
     renderCurrentView();
-    if(i+BATCH<syms.length){
-      document.getElementById('lastUpdate').textContent=`Loading ${loaded}/${syms.length} · Pausing for rate limit...`;
-      await new Promise(r=>setTimeout(r,65000));
-    }
+    if(i<syms.length-1) await new Promise(r=>setTimeout(r,8000));
   }
   btn.classList.remove('spinning');
   document.getElementById('refreshTxt').textContent = ' Refresh';
