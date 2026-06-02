@@ -436,6 +436,9 @@ async function fetchAllPrices(){ return false; }
 async function refreshAllPrices(){
   if(refreshing) return;
   refreshing = true;
+  // Clear any stale cached prices before fetching fresh ones
+  prices = {};
+  localStorage.removeItem('mcPrices');
   const btn = document.getElementById('refreshBtn');
   btn.classList.add('spinning');
   if(!isHosted()){
@@ -452,14 +455,17 @@ async function refreshAllPrices(){
     await fetchBatch([syms[i]]);
     if(i<syms.length-1) await new Promise(r=>setTimeout(r,8000));
   }
-  // All prices loaded — force complete re-render of all views
+  // All prices loaded — log for debugging then re-render everything
+  console.log('=== ALL PRICES LOADED ===', JSON.stringify(prices));
+  console.log('Price count:', Object.keys(prices).length);
+  // Force complete re-render
   renderDashboard();
   renderHoldings();
   renderCash();
   renderDividendsView();
   btn.classList.remove('spinning');
   document.getElementById('refreshTxt').textContent = ' Refresh';
-  document.getElementById('lastUpdate').textContent = 'Twelve Data · Updated '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('lastUpdate').textContent = 'Twelve Data · Updated '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) + ' · ' + Object.keys(prices).length + ' prices loaded';
   refreshing = false;
 }
 
