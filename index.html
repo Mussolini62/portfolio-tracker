@@ -386,40 +386,35 @@ function getCashTotal(){ return CASH_ACCOUNTS.reduce((a,c)=>a+c.balance,0); }
 function getCashInterest(){ return CASH_ACCOUNTS.reduce((a,c)=>a+(c.balance*c.rate/100),0); }
 
 // ══════════════════════════════════════════════════════════════
-//  PRICE FETCH — Twelve Data API
+//  PRICE FETCH — Finnhub API (60/min free, LSE 15-min delayed)
 // ══════════════════════════════════════════════════════════════
-const TDKEY='1690b9528b814da28f9e12d34a3394ac';
+const FHKEY='d8eoo41r01qub7kdvq50d8eoo41r01qub7kdvq5g';
+const FHBASE='https://finnhub.io/api/v1/quote';
 
-// [symbol, exchange] pairs for portfolio holdings
-const TD_PORT={
-  'ATYM.L': ['ATYM','LSE'],  'GAMA.L': ['GAMA','LSE'],  'HSBA.L': ['HSBA','LSE'],
-  'IMI.L':  ['IMI','LSE'],   'LUCE.L': ['LUCE','LSE'],   'MAB1.L': ['MAB','LSE'],
-  'SN.L':   ['SN','LSE'],    'AAF.L':  ['AAF','LSE'],    'BA.L':   ['BA','LSE'],
-  'FSG.L':  ['FSG','LSE'],   'BGEO.L': ['BGEO','LSE'],   'MONY.L': ['MONY','LSE'],
-  'RIO.L':  ['RIO','LSE'],   'RS1.L':  ['RS1','LSE'],
+const FH_PORT={
+  'ATYM.L':'LSE:ATYM', 'GAMA.L':'LSE:GAMA', 'HSBA.L':'LSE:HSBA',
+  'IMI.L':'LSE:IMI',   'LUCE.L':'LSE:LUCE',  'MAB1.L':'LSE:MAB',
+  'SN.L':'LSE:SN',     'AAF.L':'LSE:AAF',    'BA.L':'LSE:BA',
+  'FSG.L':'LSE:FSG',   'BGEO.L':'LSE:BGEO',  'MONY.L':'LSE:MONY',
+  'RIO.L':'LSE:RIO',   'RS1.L':'LSE:RS1',
 };
 
 function isHosted(){return window.location.protocol==='https:'||window.location.protocol==='http:';}
 
 async function fetchBatch(appSyms){
   for(const sym of appSyms){
-    const cfg=TD_PORT[sym];
-    if(!cfg) continue;
-    const [tdSym,exch]=cfg;
-    let url=`https://api.twelvedata.com/quote?symbol=${tdSym}&apikey=${TDKEY}&dp=2`;
-    if(exch) url+=`&exchange=${exch}`;
+    const fhSym=FH_PORT[sym];
+    if(!fhSym) continue;
+    const url=`${FHBASE}?symbol=${encodeURIComponent(fhSym)}&token=${FHKEY}`;
     try{
       const r=await fetch(url);
-      if(!r.ok){console.warn(`TD ${sym}: HTTP ${r.status}`);continue;}
+      if(!r.ok){console.warn(`FH ${sym}: HTTP ${r.status}`);continue;}
       const d=await r.json();
-      if(d.status==='error'){console.warn(`TD ${sym}:`,d.message);continue;}
-      const price=parseFloat(d.close);
-      if(!isNaN(price)&&price>0){
-        prices[sym]={price,change:parseFloat(d.change)||null,changePct:parseFloat(d.percent_change)||null,ts:Date.now()};
-        console.log(`✅ ${sym}: ${price}`);
-      }
-    }catch(e){console.warn(`TD ${sym} failed:`,e.message);}
-    await new Promise(r=>setTimeout(r,500));
+      if(!d.c||d.c===0){console.warn(`FH ${sym}: no data`);continue;}
+      prices[sym]={price:d.c, change:d.d||null, changePct:d.dp||null, ts:Date.now()};
+      console.log(`✅ ${sym}: ${d.c}`);
+    }catch(e){console.warn(`FH ${sym} failed:`,e.message);}
+    await new Promise(r=>setTimeout(r,100));
   }
   saveState();
 }
@@ -430,7 +425,6 @@ async function fetchPrice(sym){
   return prices[sym]||null;
 }
 
-// Legacy stub
 async function fetchAllPrices(){ return false; }
 
 async function refreshAllPrices(){
@@ -453,7 +447,7 @@ async function refreshAllPrices(){
     document.getElementById('refreshTxt').textContent=` ${i+1}/${syms.length}`;
     document.getElementById('lastUpdate').textContent=`Loading ${syms[i]}... (${i+1} of ${syms.length})`;
     await fetchBatch([syms[i]]);
-    if(i<syms.length-1) await new Promise(r=>setTimeout(r,8000));
+    if(i<syms.length-1) await new Promise(r=>setTimeout(r,200));
   }
   // All prices loaded — log for debugging then re-render everything
   console.log('=== ALL PRICES LOADED ===', JSON.stringify(prices));
@@ -465,7 +459,7 @@ async function refreshAllPrices(){
   renderDividendsView();
   btn.classList.remove('spinning');
   document.getElementById('refreshTxt').textContent = ' Refresh';
-  document.getElementById('lastUpdate').textContent = 'Twelve Data · Updated '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) + ' · ' + Object.keys(prices).length + ' prices loaded';
+  document.getElementById('lastUpdate').textContent = 'Finnhub · Updated '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) + ' · ' + Object.keys(prices).length + ' prices loaded';
   refreshing = false;
 }
 
